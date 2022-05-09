@@ -1,0 +1,35 @@
+{
+  "createLocation": {
+    "handler": "location/createLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/createLocation",
+          "method": "post"
+        }
+      }
+    ]
+  },
+  "getLocation": {
+    "handler": "location/getLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/getLocation",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "updateLocation": {
+    "handler": "location/updateLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/updateLocation",
+          "method": "put"
+        }
+      }
+    ]
+  }
+}
