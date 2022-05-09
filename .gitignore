@@ -4,3 +4,4 @@
 **/yarn.lock
 **/config/env.prod.json
 **/config/env.qa.json
+yarn-error.log
