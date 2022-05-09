@@ -1,21 +1,17 @@
 service: digiwork
-
 provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   environment: ${file(./config/env.${opt:stage,"dev"}.json)}
-  layers: ${file(./config/layers.${opt:stage,"dev"}.json)}  
-
+  layers: ${file(./config/layers.${opt:stage,"dev"}.json)}
 package:
   individually: true
   patterns:
     - templates/
-
 plugins:
   - serverless-functions-base-path
   - serverless-esbuild
-  
 custom:
   functionsBasePath: ./lambdas
   esbuild:
@@ -24,5 +20,5 @@ custom:
     nativeZip: true
     exclude:
       - '@octopy/serverless-core'
-
 functions:
+  - ${file(./modules/${opt:module,'auth'}-functions.json)}

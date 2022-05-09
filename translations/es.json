@@ -11,5 +11,24 @@
   "sessionNotFound":"La sesión no existe",
   "userNotFound":"Usuario no encontrado",
   "invalidToken":"El token no es válido",
-  "fieldNotAllowed": "El campo %field% no está permitido"
+  "fieldNotAllowed": "El campo %field% no está permitido",
+
+  "NoRecoveryPasswordRequest": "No existe una solicitud para el cambio de contraseña con los datos suministrados",
+  "userDoesNotExist": "El usuario no existe",
+  "userSessionUnique": "El usuario ya cuenta con una sesión activa",
+  "sessionDoesNotExist": "La sesión no existe",
+  "incorrectPassword": "La contraseña introducida es incorrecta",
+  "emailIsNotString": "El campo email no es una cadena de texto",
+  "isNotEmail": "No es un email válido",
+  "emailRequired": "El campo email es requerido",
+  "isCurrentPassword": "La nueva contraseña no puede ser igual a la actual",
+  "passwordPolicyError": "La contraseña debe tener al menos una mayúscula, una minúscula, un caracter especial y un número",
+  "passwordIsNotString": "La contraseña no es una cadena de texto",
+  "passwordMinLength": "La contraseña necesita mínimo 8 caracteres",
+  "passwordRequired": "La contraseña es requerida",
+  "confirmPasswordIsNotString": "La contraseña de confirmación no es una cadena de texto",
+  "confirmPasswordIsNotValid": "La contraseña de confirmación no coincide con la contraseña original",
+  "confirmPasswordRequired": "La contraseña de confirmación es requerida",
+  "tokenIsNotString": "El campo token no es una cadena de texto",
+  "tokenRequired": "El campo token es requerido"
 }

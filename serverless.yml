@@ -1,27 +1,20 @@
 service: digiwork
-
 provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
   environment: ${file(./config/env.dev.json)}
-
 package:
   individually: true
-
 plugins:
   - serverless-functions-base-path
   - serverless-esbuild
   - serverless-offline
-  
-
 custom:
   functionsBasePath: ./lambdas
   esbuild:
     packager: yarn
     minify: false
     nativeZip: true
-  
-
-
 functions:
+  - ${file(./modules/${opt:module,'auth'}-functions.json)}
