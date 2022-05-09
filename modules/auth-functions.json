@@ -1,0 +1,82 @@
+{
+    "changePassword": {
+        "handler": "auth/changePassword.handler",
+        "events": [
+            {
+                "http": {
+                    "path": "auth/change-password",
+                    "method": "post",
+                    "cors": true
+                }
+            }
+        ],
+        "layers": [
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-core:24",
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-auth:6"
+        ]
+    },
+    "login": {
+        "handler": "auth/login.handler",
+        "events": [
+            {
+                "http": {
+                    "path": "auth/login",
+                    "method": "post",
+                    "cors": true
+                }
+            }
+        ],
+        "layers": [
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-core:24",
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-auth:6"
+        ]
+    },
+    "logout": {
+        "handler": "auth/logout.handler",
+        "events": [
+            {
+                "http": {
+                    "path": "auth/logout",
+                    "method": "post",
+                    "cors": true
+                }
+            }
+        ],
+        "layers": [
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-core:24",
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-auth:6"
+        ]
+    },
+    "recoveryPasswordEmail": {
+        "handler": "auth/recoveryPasswordEmail.handler",
+        "events": [
+            {
+                "http": {
+                    "path": "auth/recovery-password/email",
+                    "method": "post",
+                    "cors": true
+                }
+            }
+        ],
+        "layers": [
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-core:24",
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-auth:6"
+        ]
+    },
+    "recoveryPasswordReset": {
+        "handler": "auth/recoveryPasswordReset.handler",
+        "events": [
+            {
+                "http": {
+                    "path": "auth/recovery-password/reset",
+                    "method": "post",
+                    "cors": true
+                }
+            }
+        ],
+        "layers": [
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-core:24",
+            "arn:aws:lambda:us-east-1:565183114770:layer:common-auth:6"
+        ]
+    }
+}

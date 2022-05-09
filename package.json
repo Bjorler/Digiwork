@@ -11,17 +11,19 @@
     "deploy:prod": "sls deploy -c deploy.yml -s prod",
     "deploy:qa": "sls deploy -c deploy.yml -s qa",
     "dev": "sls offline",
-    "offline": "sls offline"
+    "offline": "sls offline",
+    "dev:auth": "sls offline --module auth"
   },
   "devDependencies": {
     "esbuild": "^0.14.10",
     "serverless": "^2.70.0",
     "serverless-esbuild": "^1.23.3",
     "serverless-functions-base-path": "^1.0.32",
-    
     "serverless-offline": "^8.3.1"
   },
   "dependencies": {
-    "@octopy/serverless-core": "^1.6.9"
+    "@octopy/serverless-core": "^1.6.9",
+    "@octopy/serverless-auth": "^1.1.2",
+    "generate-password": "^1.7.0"
   }
 }
