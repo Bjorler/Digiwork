@@ -5,7 +5,7 @@ import { use, mongo } from "@octopy/serverless-core";
 const getLocation = async(event, context) => {
     const { collections: [locationModel] } = event.useMongo;
     const id = event.pathParameters.id;
-    const location = await locationModel.findbyid(id)
+    const location = await locationModel.findById(id)
 
     return location
 }

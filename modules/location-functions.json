@@ -15,7 +15,7 @@
     "events": [
       {
         "http": {
-          "path": "location/getLocation",
+          "path": "location/getLocation/{id}",
           "method": "get"
         }
       }
@@ -26,7 +26,7 @@
     "events": [
       {
         "http": {
-          "path": "location/updateLocation",
+          "path": "location/updateLocation/{id}",
           "method": "put"
         }
       }
