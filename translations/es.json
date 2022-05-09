@@ -1,0 +1,15 @@
+{
+  "success": "Operación exitosa",
+  "empty": "La petición no retornó respuesta alguna",
+  "validation": "No todas las validaciones se cumplieron",
+  "wrong": "Petición incorrecta",
+  "error": "Ocurrió un problema inesperado",
+  "unauthorized": "No cuenta con las credenciales para acceder a este recurso",
+  "forbbiden":"No cuenta con los permisos para realizar esta acción",
+  "notFound":"Recurso no encontrado",
+  "conflic":"El recurso fue creado anteriormente",
+  "sessionNotFound":"La sesión no existe",
+  "userNotFound":"Usuario no encontrado",
+  "invalidToken":"El token no es válido",
+  "fieldNotAllowed": "El campo %field% no está permitido"
+}

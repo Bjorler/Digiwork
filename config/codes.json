@@ -1,0 +1,13 @@
+{
+  "success": 200,
+  "empty": 201,
+  "validation": 202,
+  "wrong": 203,
+  "error": 204,
+  "unauthorized": 205,
+  "sessionNotFound": 205,
+  "invalidToken": 205,
+  "forbbiden": 206,
+  "notFound": 207,
+  "conflic": 208
+}

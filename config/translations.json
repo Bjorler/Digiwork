@@ -1,0 +1,6 @@
+{
+  "defaultLang": "es",
+  "options": ["es"],
+  "input": "translations",
+  "errorsOutput": "translations"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "digiwork",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "serverless": "yarn & npm run aws:login & npm run aws:serverless-core",
+    "aws:login": "aws codeartifact login --tool npm --repository backend --domain octopy --domain-owner 565183114770 --namespace octopy --region us-east-1",
+    "aws:serverless-core": "yarn add @octopy/serverless-core",
+    "aws:serverless-aws": "yarn add @octopy/serverless-aws",
+    "deploy:dev": "sls deploy -c deploy.yml -s dev",
+    "deploy:prod": "sls deploy -c deploy.yml -s prod",
+    "deploy:qa": "sls deploy -c deploy.yml -s qa",
+    "dev": "sls offline",
+    "offline": "sls offline"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.10",
+    "serverless": "^2.70.0",
+    "serverless-esbuild": "^1.23.3",
+    "serverless-functions-base-path": "^1.0.32",
+    
+    "serverless-offline": "^8.3.1"
+  },
+  "dependencies": {
+    "@octopy/serverless-core": "^1.6.9"
+  }
+}

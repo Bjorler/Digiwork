@@ -1,0 +1,6 @@
+**/node_modules
+**/.esbuild
+**/.serverless
+**/yarn.lock
+**/config/env.prod.json
+**/config/env.qa.json
