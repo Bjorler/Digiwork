@@ -31,5 +31,27 @@
         }
       }
     ]
+  },
+  "listLocation": {
+    "handler": "location/listLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/listLocation",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "deleteLocation": {
+    "handler": "location/deleteLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/deleteLocation/{id}",
+          "method": "delete"
+        }
+      }
+    ]
   }
 }
