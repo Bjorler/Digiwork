@@ -1,5 +1,6 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo} from "@octopy/serverless-core";
+import { use, mongo, validateBody} from "@octopy/serverless-core";
+import { locationDTO } from "../../models/location/locationDTO";
 
 
 const createLocation = async(event, context) => {
@@ -10,4 +11,5 @@ const createLocation = async(event, context) => {
 }
 
 export const handler = use(createLocation, { httpCodes, langConfig, translations })
-    .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["location"] }))
+    .use(validateBody(locationDTO,translations))
+    .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["location"] }))    
