@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@octopy/serverless-auth": "^1.1.2",
-    "@octopy/serverless-core": "^1.6.9",
+    "@octopy/serverless-core": "^1.6.12",
     "generate-password": "^1.7.0",
     "mongoose": "^6.3.3"
   }
