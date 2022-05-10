@@ -4,7 +4,8 @@ import { workStationSchema } from "../../schemas/workStation";
 
 const deleteWorkstation = async(event, context) => {
     const { collections: [workStationModel] } = event.useMongo;
-    const id = event.pathParameters.id;
+    const id = event.pathParameters?.id;
+    
     const workstation = workStationModel.findByIdAndDelete(id)
 
     return workstation

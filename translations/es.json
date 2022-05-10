@@ -30,5 +30,10 @@
   "confirmPasswordIsNotValid": "La contraseña de confirmación no coincide con la contraseña original",
   "confirmPasswordRequired": "La contraseña de confirmación es requerida",
   "tokenIsNotString": "El campo token no es una cadena de texto",
-  "tokenRequired": "El campo token es requerido"
+  "tokenRequired": "El campo token es requerido",
+  "nameIsNotString":"El campo nombre debe ser cadena de texto",
+  "nameRequired":"El campo nombre es requerido",
+  "locationIsNotString":"El campo location debe ser cadena de texto",
+  "locationRequired":"El campo location es requerido",
+  "idParametersRequired":"no se envió el id de busqueda"
 }
