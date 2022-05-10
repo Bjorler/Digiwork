@@ -1,7 +1,6 @@
-import { Schema } from "mongoose";
+import { Schema } from '@octopy/serverless-core';
 
-
-const locationSchema = Schema({
+export const locationSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -10,6 +9,4 @@ const locationSchema = Schema({
         type: String,
         required: true
     }
-})
-
-export const locationModel = mongoose.models.location || mongoose.model('location',locationSchema)
+});
