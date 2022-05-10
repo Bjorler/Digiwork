@@ -3,6 +3,8 @@ import { use, mongo, Model, validateBody } from "@octopy/serverless-core";
 import { AuthEmailRepository } from "../../helpers/auth/AuthEmailRepository";
 import { TemporalEmailBuilder } from "../../helpers/auth/TemporalEmailBuilder";
 import { recoveryPasswordEmailDTO } from "../../models/auth/recoveryPasswordEmailDTO";
+import { temporalEmailSchema } from "../../schemas/temporalEmails";
+import { userSchema } from "../../schemas/user";
 
 const recoveryPasswordEmail = async (event) => {
     const { collections: [userModel, temporalemailsModel] } = event.useMongo;
@@ -31,8 +33,7 @@ export const handler = use(recoveryPasswordEmail, { httpCodes, langConfig, trans
     .use(validateBody(recoveryPasswordEmailDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION, models: ["users", "temporalemails"], schemas: {
-            temporalemails: {
-                expirationDate: { type: Date, expires: 0 }
-            }
+            temporalemails: temporalEmailSchema,
+            users: userSchema
         }
     }));

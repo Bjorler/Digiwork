@@ -1,0 +1,57 @@
+{
+  "create": {
+    "handler": "workstation/createWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/create",
+          "method": "post"
+        }
+      }
+    ]
+  },
+  "deleteWorkstation": {
+    "handler": "workstation/deleteWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/deleteWorkstation/{id}",
+          "method": "delete"
+        }
+      }
+    ]
+  },
+  "getWorkstation": {
+    "handler": "workstation/getWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/getWorkstation/{id}",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "listWorkstation": {
+    "handler": "workstation/listWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/listWorkstation",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "updateWorkstation": {
+    "handler": "workstation/updateWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/updateWorkstation/{id}",
+          "method": "put"
+        }
+      }
+    ]
+  }
+}

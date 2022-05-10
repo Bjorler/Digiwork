@@ -36,5 +36,8 @@
   "nameMinLength": "El nombre necesita minimo 3 caracteres",
   "addressRequired": "El campo direccion es requerido",
   "addressIsNotString": "La direccion no es una cadena de texto",
-  "addressMinLength": "La direccion necesita minimo 3 caracteres"
+  "addressMinLength": "La direccion necesita minimo 3 caracteres",
+  "locationIsNotString":"El campo location debe ser cadena de texto",
+  "locationRequired":"El campo location es requerido",
+  "idParametersRequired":"no se envió el id de busqueda"
 }

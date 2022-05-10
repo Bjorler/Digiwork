@@ -3,7 +3,9 @@ import { use, mongo, Model, validateBody } from "@octopy/serverless-core";
 import { EncryptionTools, TokenTools } from "@octopy/serverless-auth";
 import { loginDTO } from "../../models/auth/loginDTO";
 import { SessionBuilder } from "../../helpers/auth/SessionBuilder";
-
+import { userSchema } from "../../schemas/user"
+import { sessionSchema } from "../../schemas/session"
+ 
 const login = async (event) => {
     const { collections: [userModel, sessionModel] } = event.useMongo;
     const [user, currentSession] = await Promise.all([
@@ -39,6 +41,7 @@ export const handler = use(login, { httpCodes, langConfig, translations })
     .use(validateBody(loginDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION, models: ["users", "sessions"], schemas: {
-            sessions: { expirationDate: { type: Date, expires: 0 } }
+            sessions: sessionSchema,
+            users: userSchema
         }
     }));
