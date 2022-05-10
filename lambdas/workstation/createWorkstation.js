@@ -5,7 +5,7 @@ import { createWorkstationDTO } from "../../models/workstation/createWorkstation
 
 const createWorkstation = async(event, context) => {
     const { collections: [workStationModel] } = event.useMongo;
-    return await workStationModel.create(JSON.parse(event.body))
+    return await workStationModel.create(event.body)
 }
 
 export const handler = use(createWorkstation, { httpCodes, langConfig, translations })
