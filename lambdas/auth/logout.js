@@ -1,5 +1,7 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, token } from "@octopy/serverless-core";
+import { userSchema } from "../../schemas/user"
+import { sessionSchema } from "../../schemas/session"
 
 const logout = async (event) => {
     const { payload } = event.useToken;
@@ -25,5 +27,11 @@ const logout = async (event) => {
 };
 
 export const handler = use(logout, { httpCodes, langConfig, translations })
-    .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["users", "sessions"] }))
+    .use(mongo({
+        uri: process.env.MONGO_CONNECTION,
+        models: ["users", "sessions"], schemas: {
+            users: userSchema,
+            sessions: sessionSchema
+        }
+    }))
     .use(token(process.env.SECRET_KEY));

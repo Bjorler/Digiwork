@@ -2,6 +2,9 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, validateBody } from "@octopy/serverless-core";
 import { recoveryPasswordResetDTO } from "../../models/auth/recoveryPasswordResetDTO";
 import { TokenTools, EncryptionTools } from "@octopy/serverless-auth";
+import { userSchema } from "../../schemas/user";
+import { sessionSchema } from "../../schemas/session";
+import { temporalEmailSchema } from "../../schemas/temporalEmails";
 
 const recoveryPasswordReset = async (event) => {
     const emailToken = TokenTools.transformPesosSymbolToDot(event.body.token);
@@ -41,4 +44,12 @@ const recoveryPasswordReset = async (event) => {
 
 export const handler = use(recoveryPasswordReset, { httpCodes, langConfig, translations })
     .use(validateBody(recoveryPasswordResetDTO, translations))
-    .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["users", "sessions", "temporalemails"] }));
+    .use(mongo({ 
+        uri: process.env.MONGO_CONNECTION, 
+        models: ["users", "sessions", "temporalemails"], 
+        schemas: {
+            users: userSchema,
+            sessions: sessionSchema,
+            temporalemails: temporalEmailSchema
+        }
+    }));
