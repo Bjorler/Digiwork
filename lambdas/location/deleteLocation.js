@@ -1,6 +1,6 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, validatePathParams } from "@octopy/serverless-core";
-import { locationDTO } from "../../models/location/locationDTO";
+
 import { locationSchema } from '../../schemas/location';
 
 const deleteLocation = async(event, context) => {
