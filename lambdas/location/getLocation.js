@@ -1,6 +1,7 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, validatePathParams } from "@octopy/serverless-core";
 import { locationDTO } from "../../models/location/locationDTO";
+import { locationSchema } from '../../schemas/location';
 
 
 const getLocation = async(event, context) => {
@@ -13,4 +14,10 @@ const getLocation = async(event, context) => {
 
 export const handler = use(getLocation, { httpCodes, langConfig, translations })
     .use(validatePathParams(locationDTO,translations))
-    .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["location"] }))
+    .use(mongo({ 
+        uri: process.env.MONGO_CONNECTION, 
+        models: ["locations"], 
+        schemas: {
+            locations: locationSchema
+        } 
+    }));

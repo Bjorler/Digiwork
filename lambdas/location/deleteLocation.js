@@ -1,6 +1,7 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, validatePathParams} from "@octopy/serverless-core";
+import { use, mongo, validatePathParams } from "@octopy/serverless-core";
 import { locationDTO } from "../../models/location/locationDTO";
+import { locationSchema } from '../../schemas/location';
 
 const deleteLocation = async(event, context) => {
     const { collections: [locationModel] } = event.useMongo;
@@ -11,5 +12,11 @@ const deleteLocation = async(event, context) => {
 }
 
 export const handler = use(deleteLocation, { httpCodes, langConfig, translations })
-    .use(validatePathParams(locationDTO,translations))
-    .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["location"] }))
+    // .use(validatePathParams(locationDTO,translations))
+    .use(mongo({ 
+        uri: process.env.MONGO_CONNECTION, 
+        models: ["locations"], 
+        schemas: {
+            locations: locationSchema
+        } 
+    }));
