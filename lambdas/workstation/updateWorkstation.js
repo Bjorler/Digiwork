@@ -6,7 +6,7 @@ import { updateWorkstationDTO } from "../../models/workstation/updateWorkstation
 const updateWorkstation = async(event, context) => {
     const { collections: [workStationModel] } = event.useMongo;
     const id = event.pathParameters.id;
-    const Body = JSON.parse(event.body)
+    const Body = event.body
     const workstation = await workStationModel.findByIdAndUpdate(id,Body)
 
     return workstation
