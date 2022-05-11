@@ -4,7 +4,7 @@
     "events": [
       {
         "http": {
-          "path": "location/createLocation",
+          "path": "location/create",
           "method": "post"
         }
       }
@@ -15,7 +15,7 @@
     "events": [
       {
         "http": {
-          "path": "location/getLocation/{id}",
+          "path": "location/get/{id}",
           "method": "get"
         }
       }
@@ -26,7 +26,7 @@
     "events": [
       {
         "http": {
-          "path": "location/updateLocation/{id}",
+          "path": "location/update/{id}",
           "method": "put"
         }
       }
@@ -37,7 +37,7 @@
     "events": [
       {
         "http": {
-          "path": "location/listLocation",
+          "path": "location/list",
           "method": "get"
         }
       }
@@ -48,7 +48,7 @@
     "events": [
       {
         "http": {
-          "path": "location/deleteLocation/{id}",
+          "path": "location/delete/{id}",
           "method": "delete"
         }
       }

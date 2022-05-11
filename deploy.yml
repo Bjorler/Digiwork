@@ -21,9 +21,10 @@ custom:
     exclude:
       - '@octopy/serverless-core'
       - '@octopy/serverless-auth'
-      - 'generate-password'
+      - generate-password
 functions:
   - ${file(./modules/${opt:module,'auth'}-functions.json)}
   - ${file(./modules/${opt:module,'location'}-functions.json)}
   - ${file(./modules/${opt:module,'workstation'}-functions.json)}
   - ${file(./modules/${opt:module,'user'}-functions.json)}
+  - ${file(./modules/${opt:module,'room'}-functions.json)}
