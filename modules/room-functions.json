@@ -1,3 +1,13 @@
 {
-  
+  "createRoom": {
+    "handler": "room/createRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/createRoom",
+          "method": "post"
+        }
+      }
+    ]
+  }
 }
