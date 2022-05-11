@@ -26,7 +26,7 @@
     "events": [
       {
         "http": {
-          "path": "room/deleteRoom/{id}",
+          "path": "room/delete/{id}",
           "method": "delete"
         }
       }
@@ -37,7 +37,7 @@
     "events": [
       {
         "http": {
-          "path": "room/listRoom",
+          "path": "room/list",
           "method": "get"
         }
       }

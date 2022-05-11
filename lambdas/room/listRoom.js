@@ -1,11 +1,22 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, validateBody,authorizer } from "@octopy/serverless-core";
+import { use, mongo, authorizer } from "@octopy/serverless-core";
 import { roomSchema } from '../../schemas/room';
 
 
 const listRoom = async(event, context) => {
     const { collections: [roomModel] } = event.useMongo;
-    const room = await roomModel.find();
+    const location_filter = event.queryStringParameters?.location
+    const name_filter = event.queryStringParameters?.name ?? ""
+
+    const match = {
+        name: { $regex: name_filter, $options: "i"},
+    }
+
+    if (location_filter) {
+        match.location = location_filter
+    }
+
+    const room = await roomModel.find(match);
 
     return room
 }
