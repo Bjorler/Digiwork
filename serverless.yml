@@ -21,3 +21,4 @@ functions:
   - ${file(./modules/${opt:module,'location'}-functions.json)}
   - ${file(./modules/${opt:module,'workstation'}-functions.json)}
   - ${file(./modules/${opt:module,'user'}-functions.json)}
+  - ${file(./modules/${opt:module,'reservation'}-functions.json)}
