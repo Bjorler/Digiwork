@@ -1,5 +1,5 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo} from "@octopy/serverless-core";
+import { use, mongo, authorizer} from "@octopy/serverless-core";
 import { locationSchema } from '../../schemas/location';
 
 const listLocation = async(event, context) => {
@@ -13,10 +13,14 @@ const listLocation = async(event, context) => {
 }
 
 export const handler = use(listLocation, { httpCodes, langConfig, translations })
-.use(mongo({ 
+    .use(authorizer({
+        uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
+        roles: ["admin"]
+    }))
+    .use(mongo({ 
     uri: process.env.MONGO_CONNECTION, 
     models: ["locations"], 
     schemas: {
         locations: locationSchema
     } 
-}));
+    }));

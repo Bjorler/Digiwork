@@ -1,25 +1,25 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer } from "@octopy/serverless-core";
-import { locationSchema } from '../../schemas/location';
+import { roomSchema } from '../../schemas/room';
 
 
-const getLocation = async(event, context) => {
-    const { collections: [locationModel] } = event.useMongo;
+const getRoom = async(event, context) => {
+    const { collections: [roomModel] } = event.useMongo;
     const id = event.pathParameters?.id;
-    const location = await locationModel.findById(id)
+    const room = await roomModel.findById(id)
 
-    return location
+    return room
 }
 
-export const handler = use(getLocation, { httpCodes, langConfig, translations })
+export const handler = use(getRoom, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
-        models: ["locations"], 
+        models: ["rooms"], 
         schemas: {
-            locations: locationSchema
+            locations: roomSchema
         } 
     }));

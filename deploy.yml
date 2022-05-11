@@ -30,3 +30,4 @@ functions:
   - ${file(./modules/${opt:module,'workstation'}-functions.json)}
   - ${file(./modules/${opt:module,'user'}-functions.json)}
   - ${file(./modules/${opt:module,'reservation'}-functions.json)}
+  - ${file(./modules/${opt:module,'room'}-functions.json)}
