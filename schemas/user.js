@@ -21,8 +21,9 @@ export const userSchema = new Schema({
     last_login: {
         type: Date
     },
-    role: {
-        type: String,
+    is_admin: {
+        type: Boolean,
+        default: false,
         required: true
     }
 }, {

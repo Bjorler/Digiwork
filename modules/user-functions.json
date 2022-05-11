@@ -1,0 +1,94 @@
+{
+  "createUser": {
+    "handler": "user/createUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/create",
+          "method": "post"
+        }
+      }
+    ],
+    "layers": [
+      "arn:aws:lambda:us-east-1:565183114770:layer:common-auth:6",
+      "arn:aws:lambda:us-east-1:565183114770:layer:common-generate-password:1"
+    ]
+  },
+  "getUser": {
+    "handler": "user/getUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/get/{id}",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "listUser": {
+    "handler": "user/listUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/list",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "updateUser": {
+    "handler": "user/updateUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/update/{id}",
+          "method": "put"
+        }
+      }
+    ]
+  },
+  "deleteUser": {
+    "handler": "user/deleteUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/delete/{id}",
+          "method": "delete"
+        }
+      }
+    ]
+  },
+  "reservationsPerUser": {
+    "handler": "user/reservationsPerUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/my-reservations",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "checkInReservationUser": {
+    "handler": "user/checkInReservationUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/check-in/{id}",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "exportUser": {
+    "handler": "user/exportUser.handler",
+    "events": [
+      {
+        "http": {
+          "path": "user/export",
+          "method": "get"
+        }
+      }
+    ]
+  }
+}

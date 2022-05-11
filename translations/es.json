@@ -39,5 +39,21 @@
   "addressMinLength": "La direccion necesita minimo 3 caracteres",
   "locationIsNotString":"El campo location debe ser cadena de texto",
   "locationRequired":"El campo location es requerido",
-  "idParametersRequired":"no se envió el id de busqueda"
+  "idParametersRequired":"no se envió el id de busqueda",
+
+  "nameIsRequired": "El nombre es requerido",
+
+  "phoneIsNotString": "el teléfono debe ser string",
+  "phoneIsRequired": "El teléfono es requerido",
+  "phoneRegex": "El teléfono no es válido",
+
+  "isAdminIsBolean": "El campo is_admin debe ser un boolean",
+
+  "emailExistent": "Ya existe un usuario con el mismo email",
+
+  "idIsString": "El id debe de ser un string",
+  "idInvalid": "El id es inválido",
+
+  "userNotUpdated": "No fue posible actualizar el usuario",
+  "userNotDeleted": "No fue posible eliminar el usuario"
 }
