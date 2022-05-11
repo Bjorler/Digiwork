@@ -22,10 +22,11 @@ custom:
       - '@octopy/serverless-core'
       - '@octopy/serverless-auth'
       - '@octopy/serverless-aws'
-      - 'generate-password'
-      - 'csv-writer'
+      - generate-password
+      - csv-writer
 functions:
   - ${file(./modules/${opt:module,'auth'}-functions.json)}
   - ${file(./modules/${opt:module,'location'}-functions.json)}
   - ${file(./modules/${opt:module,'workstation'}-functions.json)}
   - ${file(./modules/${opt:module,'user'}-functions.json)}
+  - ${file(./modules/${opt:module,'reservation'}-functions.json)}

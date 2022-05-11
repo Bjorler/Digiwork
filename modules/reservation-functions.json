@@ -1,0 +1,13 @@
+{
+  "createReservation": {
+    "handler": "reservation/createReservation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/create",
+          "method": "post"
+        }
+      }
+    ]
+  }
+}
