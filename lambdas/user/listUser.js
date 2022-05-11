@@ -21,7 +21,7 @@ export const handler = use(listUser, { httpCodes, langConfig, translations })
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
     }))
-    .use(validateQueryParams(filterNameDTO, translations))
+    .use(validateQueryParams(filterNameDTO, translations, { applyAutoparser: false }))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
         models: ["users"],
