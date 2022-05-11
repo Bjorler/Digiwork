@@ -1,6 +1,6 @@
 import { Schema } from '@octopy/serverless-core';
 
-export const locationSchema = new Schema({
+export const roomSchema = new Schema({
     name: {
         type: String,
         required: true
