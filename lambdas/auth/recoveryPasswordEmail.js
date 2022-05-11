@@ -23,7 +23,7 @@ const recoveryPasswordEmail = async (event) => {
 
     await new AuthEmailRepository("recoverPassword", "Recupera tu contraseña", {
         email: tmpEmail.email,
-        link: `${process.env.APP_FRONTEND_BASE_URL}${process.env.APP_FRONTEND_RECOVERY_PASS_ENDPOINT}?token=${tmpEmail.transformedToken}`,
+        link: `${process.env.APP_FRONTEND_BASE_URL}${process.env.APP_FRONTEND_RECOVERY_PASS_ENDPOINT}?token=${tmpEmail.transformed_token}`,
     }).sendEmail();
 
     return {};
