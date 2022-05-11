@@ -12,6 +12,10 @@ const getLocation = async(event, context) => {
 }
 
 export const handler = use(getLocation, { httpCodes, langConfig, translations })
+    .use(authorizer({
+        uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
+        roles: ["admin"]
+    }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
         models: ["locations"], 

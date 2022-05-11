@@ -37,9 +37,14 @@
   "addressRequired": "El campo direccion es requerido",
   "addressIsNotString": "La direccion no es una cadena de texto",
   "addressMinLength": "La direccion necesita minimo 3 caracteres",
-  "locationIsNotString":"El campo location debe ser cadena de texto",
-  "locationRequired":"El campo location es requerido",
+  "locationIsNotString":"El campo ubicacion debe ser cadena de texto",
+  "locationRequired":"El campo unicacion es requerido",
   "idParametersRequired":"no se envió el id de busqueda",
+  "spaceIsNotNumber": "El campo cupo no es un numero",
+  "spaceRequired": "El campo cupo es requerido",
+  "amenitiesIsNotString":"El campo amenidad debe ser cadena de texto",
+  "amenitiesRequired":"El campo amenidad es requerido",
+  "amenitiesMinLength": "La amenidad necesita minimo 3 caracteres",
 
   "nameIsRequired": "El nombre es requerido",
 

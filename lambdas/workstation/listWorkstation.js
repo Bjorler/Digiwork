@@ -4,7 +4,18 @@ import { workStationSchema } from "../../schemas/workStation";
 
 const listWorkstation = async(event, context) => {
     const { collections: [workStationModel] } = event.useMongo;
-    const workstation = workStationModel.find()
+    const location_filter = event.queryStringParameters?.location
+    const name_filter = event.queryStringParameters?.name ?? ""
+
+    const match = {
+        name: { $regex: name_filter, $options: "i"},
+    }
+
+    if (location_filter) {
+        match.location = location_filter
+    }
+    
+    const workstation = await workStationModel.find(match)
 
     return workstation
 }

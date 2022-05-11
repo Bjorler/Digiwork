@@ -4,8 +4,30 @@
     "events": [
       {
         "http": {
-          "path": "room/createRoom",
+          "path": "room/create",
           "method": "post"
+        }
+      }
+    ]
+  },
+  "getRoom": {
+    "handler": "room/getRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/get/{id}",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "updateRoom": {
+    "handler": "room/updateRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/update/{id}",
+          "method": "put"
         }
       }
     ]

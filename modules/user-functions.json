@@ -57,38 +57,5 @@
         }
       }
     ]
-  },
-  "reservationsPerUser": {
-    "handler": "user/reservationsPerUser.handler",
-    "events": [
-      {
-        "http": {
-          "path": "user/my-reservations",
-          "method": "get"
-        }
-      }
-    ]
-  },
-  "checkInReservationUser": {
-    "handler": "user/checkInReservationUser.handler",
-    "events": [
-      {
-        "http": {
-          "path": "user/check-in/{id}",
-          "method": "get"
-        }
-      }
-    ]
-  },
-  "exportUser": {
-    "handler": "user/exportUser.handler",
-    "events": [
-      {
-        "http": {
-          "path": "user/export",
-          "method": "get"
-        }
-      }
-    ]
   }
 }
