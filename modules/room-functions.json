@@ -9,5 +9,27 @@
         }
       }
     ]
+  },
+  "deleteRoom": {
+    "handler": "room/deleteRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/deleteRoom/{id}",
+          "method": "delete"
+        }
+      }
+    ]
+  },
+  "listRoom": {
+    "handler": "room/listRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/listRoom",
+          "method": "get"
+        }
+      }
+    ]
   }
 }
