@@ -58,24 +58,13 @@
       }
     ]
   },
-  "reservationsPerUser": {
-    "handler": "user/reservationsPerUser.handler",
+  "updateProfileUser": {
+    "handler": "user/updateProfileUser.handler",
     "events": [
       {
         "http": {
-          "path": "user/my-reservations",
-          "method": "get"
-        }
-      }
-    ]
-  },
-  "checkInReservationUser": {
-    "handler": "user/checkInReservationUser.handler",
-    "events": [
-      {
-        "http": {
-          "path": "user/check-in/{id}",
-          "method": "get"
+          "path": "user/update-profile",
+          "method": "put"
         }
       }
     ]
@@ -89,6 +78,9 @@
           "method": "get"
         }
       }
+    ],
+    "layers": [
+      "arn:aws:lambda:us-east-1:565183114770:layer:common-csv-writer:1"
     ]
   }
 }

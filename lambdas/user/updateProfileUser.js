@@ -1,21 +1,20 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, validateBody, validatePathParams, authorizer, mongooseTypes } from "@octopy/serverless-core";
+import { use, mongo, Model, token, authorizer, validateBody } from "@octopy/serverless-core";
 import { userSchema } from "../../schemas/user";
-import { mongoIdDTO } from "../../models/shared/mongoIdDTO";
-import { updateUserDTO } from "../../models/user/updateUserDTO"
+import { updateProfileUserDTO } from "../../models/user/updateUserDTO";
 
-const updateUser = async (event, context) => {
+const updateProfileUser = async (event, context) => {
     const { collections: [userModel] } = event.useMongo;
-    const { id } = event.pathParameters;
+    const { payload } = event.useToken;
 
     const existEmail = await Model(userModel).getByField("email", event.body.email);
 
-    if (existEmail && existEmail?._id?.toString() !== id) {
+    if (existEmail && existEmail?._id?.toString() !== payload?._id) {
         throw { scode: "emailExistent" }
     };
 
     const user = await userModel.findOneAndUpdate(
-        { _id: id },
+        { _id: payload?._id },
         event.body,
         {
             fields: ["_id", "name", "email", "phone", "is_admin", "public_id"],
@@ -28,13 +27,12 @@ const updateUser = async (event, context) => {
     return user;
 }
 
-export const handler = use(updateUser, { httpCodes, langConfig, translations })
+export const handler = use(updateProfileUser, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
-        roles: ["admin"]
+        roles: ["admin", "user"]
     }))
-    .use(validatePathParams(mongoIdDTO, translations))
-    .use(validateBody(updateUserDTO, translations))
+    .use(validateBody(updateProfileUserDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
         models: ["users"],
@@ -42,3 +40,4 @@ export const handler = use(updateUser, { httpCodes, langConfig, translations })
             users: userSchema
         }
     }))
+    .use(token(process.env.SECRET_KEY));
