@@ -2,15 +2,15 @@ import { dayjs } from "@octopy/serverless-core";
 import { TokenTools } from "@octopy/serverless-auth";
 
 export class TemporalEmailBuilder {
-    userId = null;
+    user_id = null;
     email = null;
     token = null;
-    transformedToken = null;
+    transformed_token = null;
     type = null;
-    expirationDate = dayjs().add(Number(process.env.APP_PERSIST_TEMPORAL_EMAIL_IN_DB), "second");
+    expiration_date = dayjs().add(Number(process.env.APP_PERSIST_TEMPORAL_EMAIL_IN_DB), "second");
 
-    async setData(userId, email, type, payload) {
-        this.userId = userId;
+    async setData(user_id, email, type, payload) {
+        this.user_id = user_id;
         this.email = email;
         this.type = type;
         this.token = await TokenTools.generateJWT(payload, process.env.APP_EXPIRATION_TEMPORAL_TOKEN, process.env.SECRET_KEY);
@@ -19,7 +19,7 @@ export class TemporalEmailBuilder {
     }
 
     build() {
-        this.transformedToken = TokenTools.transforDotToPesosSymbol(this.token);
+        this.transformed_token = TokenTools.transforDotToPesosSymbol(this.token);
         return new TemporalEmailEntity(this);
     }
 }

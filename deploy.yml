@@ -20,7 +20,10 @@ custom:
     nativeZip: true
     exclude:
       - '@octopy/serverless-core'
+      - '@octopy/serverless-auth'
+      - 'generate-password'
 functions:
   - ${file(./modules/${opt:module,'auth'}-functions.json)}
   - ${file(./modules/${opt:module,'location'}-functions.json)}
   - ${file(./modules/${opt:module,'workstation'}-functions.json)}
+  - ${file(./modules/${opt:module,'user'}-functions.json)}

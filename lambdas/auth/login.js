@@ -23,16 +23,16 @@ const login = async (event) => {
         throw { scode: "incorrectPassword" };
     }
 
-    const { _id, role, email, phone, createdAt, name } = user;
+    const { _id, is_admin, email, phone, created_at, name } = user;
 
     const dataAuth = {
-        user: { _id, role, email, phone, createdAt, name },
-        token: await TokenTools.generateJWT({ _id: user["_id"], role: user.role }, process.env.SESSION_EXPIRATION_TOKEN, process.env.SECRET_KEY)
+        user: { _id, is_admin, email, phone, created_at, name },
+        token: await TokenTools.generateJWT({ _id: user["_id"], role: is_admin ? "admin" : "user" }, process.env.SESSION_EXPIRATION_TOKEN, process.env.SECRET_KEY)
     };
 
     const newSession = new SessionBuilder().setInfo(user["_id"], user.email, dataAuth.token).build();
     await Model(sessionModel).create(newSession);
-    await userModel.updateOne({ _id: user._id }, { last_login: new Date(), updatedAt: Date.now() })
+    await userModel.updateOne({ _id: user._id }, { last_login: new Date(), updated_at: Date.now() })
 
     return dataAuth;
 };

@@ -1,16 +1,16 @@
 import { dayjs } from "@octopy/serverless-core";
 
 export class SessionBuilder {
-  userId = null;
+  user_id = null;
   email = null;
   token = null;
-  expirationDate = null;
+  expiration_date = null;
 
-  setInfo(userId, email, token) {
-    this.userId = userId;
+  setInfo(user_id, email, token) {
+    this.user_id = user_id;
     this.email = email;
     this.token = token;
-    this.expirationDate = dayjs().add(Number(process.env.SESSION_PERSIST_IN_BD), "second");
+    this.expiration_date = dayjs().add(Number(process.env.SESSION_PERSIST_IN_BD), "second");
     return this;
   }
 
@@ -20,15 +20,15 @@ export class SessionBuilder {
 }
 
 export class SessionEntity {
-  userId = null;
+  user_id = null;
   email = null;
   token = null;
-  expirationDate = null;
+  expiration_date = null;
 
   constructor(object) {
-    this.userId = object.userId;
+    this.user_id = object.user_id;
     this.email = object.email;
     this.token = object.token;
-    this.expirationDate = object.expirationDate;
+    this.expiration_date = object.expiration_date;
   }
 }

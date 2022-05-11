@@ -1,7 +1,7 @@
 import { Schema } from '@octopy/serverless-core'
 
 export const temporalEmailSchema = new Schema({
-    expirationDate: { 
+    expiration_date: { 
         type: Date, 
         expires: 0 
     }

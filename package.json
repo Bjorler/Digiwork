@@ -14,7 +14,8 @@
     "offline": "sls offline",
     "dev:auth": "sls offline --module auth",
     "dev:location": "sls offline --module location",
-    "dev:workstation": "sls offline --module workstation"
+    "dev:workstation": "sls offline --module workstation",
+    "dev:user": "sls offline --module user"
   },
   "devDependencies": {
     "esbuild": "^0.14.10",
