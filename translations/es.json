@@ -55,5 +55,6 @@
   "idInvalid": "El id es inválido",
 
   "userNotUpdated": "No fue posible actualizar el usuario",
-  "userNotDeleted": "No fue posible eliminar el usuario"
+  "userNotDeleted": "No fue posible eliminar el usuario",
+  "deleteMyselfError": "No se permite borrar su propio usuario"
 }
