@@ -1,0 +1,57 @@
+{
+  "createRoom": {
+    "handler": "room/createRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/create",
+          "method": "post"
+        }
+      }
+    ]
+  },
+  "getRoom": {
+    "handler": "room/getRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/get/{id}",
+          "method":"get"
+        }
+      }
+    ]
+  },    
+  "deleteRoom": {
+    "handler": "room/deleteRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/delete/{id}",
+          "method": "delete"
+        }
+      }
+    ]
+  },
+  "listRoom": {
+    "handler": "room/listRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/list",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "updateRoom": {
+    "handler": "room/updateRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/update/{id}",
+          "method": "put"
+        }
+      }
+    ]
+  }
+}

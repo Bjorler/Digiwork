@@ -1,5 +1,5 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo } from "@octopy/serverless-core";
+import { use, mongo, authorizer} from "@octopy/serverless-core";
 import { workStationSchema } from "../../schemas/workStation";
 
 const deleteWorkstation = async(event, context) => {
@@ -12,6 +12,10 @@ const deleteWorkstation = async(event, context) => {
 }
 
 export const handler = use(deleteWorkstation, { httpCodes, langConfig, translations })
+    .use(authorizer({
+        uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
+        roles: ["admin"]
+    }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
         models: ["work_stations"],

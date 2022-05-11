@@ -1,9 +1,10 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, authorizer} from "@octopy/serverless-core";
-import { workStationSchema } from "../../schemas/workStation";
+import { use, mongo, authorizer } from "@octopy/serverless-core";
+import { roomSchema } from '../../schemas/room';
 
-const listWorkstation = async(event, context) => {
-    const { collections: [workStationModel] } = event.useMongo;
+
+const listRoom = async(event, context) => {
+    const { collections: [roomModel] } = event.useMongo;
     const location_filter = event.queryStringParameters?.location
     const name_filter = event.queryStringParameters?.name ?? ""
 
@@ -14,21 +15,21 @@ const listWorkstation = async(event, context) => {
     if (location_filter) {
         match.location = location_filter
     }
-    
-    const workstation = await workStationModel.find(match)
 
-    return workstation
+    const room = await roomModel.find(match);
+
+    return room
 }
 
-export const handler = use(listWorkstation, { httpCodes, langConfig, translations })
+export const handler = use(listRoom, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
-        models: ["work_stations"],
+        models: ["rooms"], 
         schemas: {
-            work_stations: workStationSchema
+            locations: roomSchema
         } 
-    }))
+    }));
