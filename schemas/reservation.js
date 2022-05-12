@@ -21,6 +21,9 @@ export const workStationReservationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users",
         required: true
+    },
+    status: {
+        type: String
     }
 }, {
     timestamps: {
@@ -51,6 +54,9 @@ export const roomReservationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users",
         required: true
+    },
+    status: {
+        type: String
     }
 }, {
     timestamps: {
