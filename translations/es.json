@@ -45,6 +45,7 @@
   "amenitiesIsNotString":"El campo amenidad debe ser cadena de texto",
   "amenitiesRequired":"El campo amenidad es requerido",
   "amenitiesMinLength": "La amenidad necesita minimo 3 caracteres",
+  "statusIsNotBoolean": "El estatus no es un booleano",
 
   "nameIsRequired": "El nombre es requerido",
 

@@ -6,6 +6,7 @@ import { roomSchema } from '../../schemas/room';
 const listRoom = async(event, context) => {
     const { collections: [roomModel] } = event.useMongo;
     const location_filter = event.queryStringParameters?.location
+    const available_filter = event.queryStringParameters?.available ?? "false"
     const name_filter = event.queryStringParameters?.name ?? ""
 
     const match = {
@@ -16,9 +17,13 @@ const listRoom = async(event, context) => {
         match.location = location_filter
     }
 
-    const room = await roomModel.find(match);
+    if (available_filter == "true") {
+        match.status = true
+    }
 
-    return room
+    const workstation = await roomModel.find(match)
+
+    return workstation
 }
 
 export const handler = use(listRoom, { httpCodes, langConfig, translations })
@@ -30,6 +35,6 @@ export const handler = use(listRoom, { httpCodes, langConfig, translations })
         uri: process.env.MONGO_CONNECTION, 
         models: ["rooms"], 
         schemas: {
-            locations: roomSchema
+            rooms: roomSchema
         } 
     }));

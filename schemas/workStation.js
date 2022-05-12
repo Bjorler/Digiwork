@@ -9,5 +9,9 @@ export const workStationSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: "location"
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 });
