@@ -3,6 +3,9 @@ provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
+  apiGateway:
+    restApiId: 87xcnpis93
+    restApiRootResourceId: xc8qlviz62
   environment: ${file(./config/env.${opt:stage,"dev"}.json)}
   layers: ${file(./config/layers.${opt:stage,"dev"}.json)}
 package:
