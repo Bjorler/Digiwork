@@ -13,10 +13,14 @@ export const roomSchema = new Schema({
     spaces: {
         type: Number,
         required: true,
-        defaul: 0
+        default: 0
     },
     amenities: {
         type:String,
         required: true
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 });

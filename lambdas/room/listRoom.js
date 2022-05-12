@@ -30,6 +30,6 @@ export const handler = use(listRoom, { httpCodes, langConfig, translations })
         uri: process.env.MONGO_CONNECTION, 
         models: ["rooms"], 
         schemas: {
-            locations: roomSchema
+            rooms: roomSchema
         } 
     }));

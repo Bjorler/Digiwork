@@ -16,11 +16,11 @@
       {
         "http": {
           "path": "room/get/{id}",
-          "method":"get"
+          "method": "get"
         }
       }
     ]
-  },    
+  },
   "deleteRoom": {
     "handler": "room/deleteRoom.handler",
     "events": [
@@ -50,6 +50,17 @@
         "http": {
           "path": "room/update/{id}",
           "method": "put"
+        }
+      }
+    ]
+  },
+  "exportRoom": {
+    "handler": "room/exportRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/exportRoom",
+          "method": "get"
         }
       }
     ]

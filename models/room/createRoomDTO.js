@@ -15,9 +15,8 @@ export const createRoomDTO = Joi.object({
     "string.min": "locationMinLength",
     "any.required": "locationRequired"
   }),
-  spaces: Joi.number().required().messages({
+  spaces: Joi.number().messages({
     "number.base": "spaceIsNotString",
-    "any.required": "spaceRequired"
   }),
   amenities: Joi.string().trim().not().empty().min(3).required().messages({
     "string.base": "amenitiesIsNotString",
@@ -25,4 +24,4 @@ export const createRoomDTO = Joi.object({
     "string.min": "amenitiesMinLength",
     "any.required": "amenitiesRequired"
   }),
-});
+})

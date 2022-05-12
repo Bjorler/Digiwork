@@ -20,6 +20,6 @@ export const handler = use(deleteRoom, { httpCodes, langConfig, translations })
         uri: process.env.MONGO_CONNECTION, 
         models: ["room"],
         schemas: {
-            room: roomSchema
+            rooms: roomSchema
         } 
     }))
