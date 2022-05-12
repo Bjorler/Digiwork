@@ -22,6 +22,6 @@ export const handler = use(updateRoom, { httpCodes, langConfig, translations })
         uri: process.env.MONGO_CONNECTION, 
         models: ["room"], 
         schemas: {
-            locations: roomSchema
+            rooms: roomSchema
         } 
     }));
