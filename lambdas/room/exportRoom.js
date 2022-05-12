@@ -16,9 +16,10 @@ const exportRoom = async (event, context) => {
         headers: [
             { id: "_id", title: "ID" },
             { id: "name", title: "Nombre" },
-            { id: "location", title: "ubicacion" },
-            { id: "spaces", title: "cupos" },
-            { id: "amenities", title: "amenities"}
+            { id: "location", title: "Ubicacion" },
+            { id: "spaces", title: "Cupos" },
+            { id: "amenities", title: "Amenidades" },
+            { id: "status", title:"Estatus" }
         ],
         content: rooms
     },

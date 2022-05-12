@@ -64,7 +64,7 @@
     "events": [
       {
         "http": {
-          "path": "room/exportRoom",
+          "path": "room/export",
           "method": "get"
         }
       }
