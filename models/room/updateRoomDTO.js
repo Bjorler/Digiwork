@@ -25,4 +25,7 @@ export const updateRoomDTO = Joi.object({
     "string.min": "amenitiesMinLength",
     "any.required": "amenitiesRequired"
   }),
+  status: Joi.boolean().messages({
+    "boolean.base": "statusIsNotBoolean"
+  })
 });
