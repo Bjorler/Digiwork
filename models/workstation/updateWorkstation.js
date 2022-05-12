@@ -9,5 +9,8 @@ export const updateWorkstationDTO = Joi.object({
   location: Joi.string().trim().not().empty().messages({
     "string.base": "locationIsNotString",
     "string.empty": "locationRequired",
-  })
+  }),
+  status: Joi.boolean().messages({
+    "boolean.base": "statusIsNotBoolean",
+  }),
 });

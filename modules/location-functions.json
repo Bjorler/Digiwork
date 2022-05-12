@@ -53,5 +53,16 @@
         }
       }
     ]
+  },
+  "exportLocation": {
+    "handler": "location/exportLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/exportLocation",
+          "method": "get"
+        }
+      }
+    ]
   }
 }

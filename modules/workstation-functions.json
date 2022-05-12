@@ -53,5 +53,16 @@
         }
       }
     ]
+  },
+  "exportWorkstation": {
+    "handler": "workstation/exportWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/exportWorkstation",
+          "method": "get"
+        }
+      }
+    ]
   }
 }
