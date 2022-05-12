@@ -64,7 +64,7 @@
     "events": [
       {
         "http": {
-          "path": "workstation/exportWorkstation",
+          "path": "workstation/export",
           "method": "get"
         }
       }

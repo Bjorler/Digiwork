@@ -64,7 +64,7 @@
     "events": [
       {
         "http": {
-          "path": "location/exportLocation",
+          "path": "location/export",
           "method": "get"
         }
       }

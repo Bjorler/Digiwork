@@ -22,7 +22,7 @@
         }
       }
     ]
-  },    
+  },
   "deleteRoom": {
     "handler": "room/deleteRoom.handler",
     "events": [
@@ -55,6 +55,17 @@
           "path": "room/update/{id}",
           "method": "put",
           "cors": true
+        }
+      }
+    ]
+  },
+  "exportRoom": {
+    "handler": "room/exportRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/export",
+          "method": "get"
         }
       }
     ]
