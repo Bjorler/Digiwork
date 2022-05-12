@@ -5,7 +5,44 @@
       {
         "http": {
           "path": "reservation/create",
-          "method": "post"
+          "method": "post",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "getReservation": {
+    "handler": "reservation/getReservation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/get/{reservation_type}/{id}",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "listReservation": {
+    "handler": "reservation/listReservation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/list",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "cancelReservation": {
+    "handler": "reservation/cancelReservation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/cancel/{reservation_type}/{id}",
+          "method": "post",
+          "cors": true
         }
       }
     ]
