@@ -2,35 +2,33 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, validateBody, token, authorizer } from "@octopy/serverless-core";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation"
 import { createReservationDTO } from "../../models/reservation/createReservationDTO"
-import { ReservationEnum } from "../../helpers/shared/enums";
+import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
 
 const createReservation = async (event, context) => {
-    const { collections: [workStationReservationModel, roomReservationModel] } = event.useMongo;
+    const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
     const { payload } = event.useToken;
     const { reservation_type } = event.body;
-    event.body.user_id = payload?._id;
-    let reservation;
-
-    switch (reservation_type) {
-        case ReservationEnum.work_station:
-            event.body.work_station = event.body.id_name;
-            delete event.body.reservation_type;
-            delete event.body.id_name;
-            
-            reservation = await Model(workStationReservationModel).create(event.body);
-            break;
-
-        case ReservationEnum.room:
-            event.body.room = event.body.id_name;
-            delete event.body.reservation_type;
-            delete event.body.id_name;
-            
-            reservation = await Model(roomReservationModel).create(event.body)
-            break;
-
-        default:
-            break;
+    
+    const data = { 
+        ...event.body, 
+        user_id: payload?._id, 
+        status: ReservationStatus.approved 
     }
+    
+    delete data.reservation_type;
+    delete data.id_name;
+    
+    if (reservation_type === ReservationEnum.work_station) {
+        data.work_station = event.body.id_name;
+    } else {
+        data.room = event.body.id_name;
+    }
+
+    const reservation = await Model(reservation_type === ReservationEnum.work_station
+        ? wsReservationModel
+        : roomReservationModel
+    ).create(data)
+
     return reservation;
 }
 

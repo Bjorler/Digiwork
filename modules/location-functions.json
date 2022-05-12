@@ -5,7 +5,8 @@
       {
         "http": {
           "path": "location/create",
-          "method": "post"
+          "method": "post",
+          "cors": true
         }
       }
     ]
@@ -16,7 +17,8 @@
       {
         "http": {
           "path": "location/get/{id}",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]
@@ -27,7 +29,8 @@
       {
         "http": {
           "path": "location/update/{id}",
-          "method": "put"
+          "method": "put",
+          "cors": true
         }
       }
     ]
@@ -38,7 +41,8 @@
       {
         "http": {
           "path": "location/list",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]
@@ -49,7 +53,8 @@
       {
         "http": {
           "path": "location/delete/{id}",
-          "method": "delete"
+          "method": "delete",
+          "cors": true
         }
       }
     ]
