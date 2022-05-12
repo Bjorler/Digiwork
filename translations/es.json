@@ -62,5 +62,24 @@
 
   "userNotUpdated": "No fue posible actualizar el usuario",
   "userNotDeleted": "No fue posible eliminar el usuario",
-  "deleteMyselfError": "No se permite borrar su propio usuario"
+  "deleteMyselfError": "No se permite borrar su propio usuario",
+
+  "reservationNotFound": "No se encontró el recurso solicitado",
+  "cancellReservationError": "Error al cancelar la reservación",
+
+  "reservationTypeIsString": "El tipo de reservación debe ser un string",
+  "reservationTypeInvalid": "El tipo de reservación debe ser: 'workstation' o 'room'",
+  "reservationTypeRequired": "El tipo de reservación es requerido",
+
+  "idNameIsString": "El id_name es un string",
+  "idNameRequired": "El id_name es requerido",
+  "idNameInvalid": "El id_name es invalido",
+
+  "startDateRequired": "El campo start_date es requerido",
+  "startDateCurrentDay": "La fecha de inicio debe ser mayor que la actual",
+  "endDateRequired": "El campo end_date es requerido",
+  "endDateCurrentDay": "La fecha de termino debe ser mayor que la actual",
+
+  "commentIsNotString": "El comentario debe ser un string",
+  "commentIsRequired": "El comentario no debe estar vacío"
 }
