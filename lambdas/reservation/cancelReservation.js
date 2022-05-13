@@ -1,14 +1,16 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, authorizer, validatePathParams } from "@octopy/serverless-core";
+import { use, mongo, Model, authorizer, validatePathParams, validateQueryParams } from "@octopy/serverless-core";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
 import { getReservationDTO } from "../../models/reservation/getReservationDTO";
 import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
+import { mongoIdDTO } from "../../models/shared/mongoIdDTO";
 
 const cancelReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
-    const { id, reservation_type } = event.pathParameters;
+    const { id } = event.pathParameters;
+    const { type } = event.queryStringParameters;
 
-    const reservation = await Model(reservation_type === ReservationEnum.work_station
+    const reservation = await Model(type === ReservationEnum.work_station
         ? wsReservationModel
         : roomReservationModel
     ).updateById(id, { status: ReservationStatus.cancelled })
@@ -25,7 +27,8 @@ export const handler = use(cancelReservation, { httpCodes, langConfig, translati
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
     }))
-    .use(validatePathParams(getReservationDTO, translations))
+    .use(validatePathParams(mongoIdDTO, translations))
+    .use(validateQueryParams(getReservationDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
         models: ["work_station_reservations", "room_reservations"],
