@@ -24,6 +24,9 @@ export const workStationReservationSchema = new Schema({
     },
     status: {
         type: String
+    },
+    check_in: {
+        type: Boolean
     }
 }, {
     timestamps: {
@@ -57,6 +60,9 @@ export const roomReservationSchema = new Schema({
     },
     status: {
         type: String
+    },
+    check_in: {
+        type: Boolean
     }
 }, {
     timestamps: {
