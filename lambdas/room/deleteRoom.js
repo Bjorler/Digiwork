@@ -1,10 +1,15 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, authorizer} from "@octopy/serverless-core";
+import { use, mongo, authorizer, mongooseTypes} from "@octopy/serverless-core";
 import { roomSchema } from "../../schemas/room";
+import { roomReservationSchema } from "../../schemas/reservation"
 
 const deleteRoom = async(event, context) => {
-    const { collections: [roomModel] } = event.useMongo;
+    const { collections: [roomModel, roomReservationModel] } = event.useMongo;
     const id = event.pathParameters?.id;
+
+    await roomReservationModel.deleteMany({
+        room: mongooseTypes.ObjectId(id)
+    });
     
     const room = roomModel.findByIdAndDelete(id)
 
@@ -18,8 +23,9 @@ export const handler = use(deleteRoom, { httpCodes, langConfig, translations })
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
-        models: ["room"],
+        models: ["room", "room_reservations"],
         schemas: {
-            rooms: roomSchema
+            rooms: roomSchema,
+            work_station_reservations: roomReservationSchema
         } 
     }))
