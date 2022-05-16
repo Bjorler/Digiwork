@@ -1,10 +1,15 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, authorizer} from "@octopy/serverless-core";
+import { use, mongo, authorizer, mongooseTypes} from "@octopy/serverless-core";
 import { workStationSchema } from "../../schemas/workStation";
+import { workStationReservationSchema } from "../../schemas/reservation"
 
 const deleteWorkstation = async(event, context) => {
-    const { collections: [workStationModel] } = event.useMongo;
+    const { collections: [workStationModel, wsReservationModel] } = event.useMongo;
     const id = event.pathParameters?.id;
+
+    await wsReservationModel.deleteMany({
+        work_station: mongooseTypes.ObjectId(id)
+    });
     
     const workstation = workStationModel.findByIdAndDelete(id)
 
@@ -18,8 +23,9 @@ export const handler = use(deleteWorkstation, { httpCodes, langConfig, translati
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
-        models: ["work_stations"],
+        models: ["work_stations","work_station_reservations"],
         schemas: {
-            work_stations: workStationSchema
+            work_stations: workStationSchema,
+            work_station_reservations: workStationReservationSchema
         } 
     }))

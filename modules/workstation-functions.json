@@ -65,7 +65,20 @@
       {
         "http": {
           "path": "workstation/export",
-          "method": "get"
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "reservationsWorkstation": {
+    "handler": "workstation/reservationsWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/check-reservations/{id}",
+          "method": "get",
+          "cors": true
         }
       }
     ]
