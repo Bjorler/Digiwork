@@ -16,7 +16,7 @@
     "events": [
       {
         "http": {
-          "path": "reservation/get/{reservation_type}/{id}",
+          "path": "reservation/get/{id}",
           "method": "get",
           "cors": true
         }
@@ -40,9 +40,20 @@
     "events": [
       {
         "http": {
-          "path": "reservation/cancel/{reservation_type}/{id}",
+          "path": "reservation/cancel/{id}",
           "method": "post",
           "cors": true
+        }
+      }
+    ]
+  },
+  "exportReservation": {
+    "handler": "reservation/exportReservation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/export",
+          "method": "post"
         }
       }
     ]

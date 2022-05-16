@@ -1,6 +1,8 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, authorizer, validatePathParams } from "@octopy/serverless-core";
+import { use, mongo, Model, authorizer, validatePathParams, validateQueryParams } from "@octopy/serverless-core";
 import { getReservationDTO } from "../../models/reservation/getReservationDTO";
+import { mongoIdDTO } from "../../models/shared/mongoIdDTO";
+
 import { ReservationEnum } from "../../helpers/shared/enums";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation"
 import { workStationSchema } from "../../schemas/workStation";
@@ -9,10 +11,11 @@ import { roomSchema } from "../../schemas/room"
 
 const getReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
-    const { id, reservation_type } = event.pathParameters;
+    const { id } = event.pathParameters;
+    const { type } = event.queryStringParameters;
     let reservation;
 
-    if (reservation_type === ReservationEnum.work_station) {
+    if (type === ReservationEnum.work_station) {
         reservation = await wsReservationModel
             .find({ _id: id })
             .populate('work_station', { name: 1, _id: 0 })
@@ -36,7 +39,8 @@ export const handler = use(getReservation, { httpCodes, langConfig, translations
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
     }))
-    .use(validatePathParams(getReservationDTO, translations))
+    .use(validatePathParams(mongoIdDTO, translations))
+    .use(validateQueryParams(getReservationDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
         models: ["work_station_reservations", "room_reservations", "work_stations", "rooms", "users"],

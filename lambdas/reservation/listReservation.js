@@ -1,24 +1,82 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, authorizer, validateQueryParams } from "@octopy/serverless-core";
-import { filterNameDTO } from "../../models/shared/filtersDTO";
+import { use, mongo, Model, authorizer, dayjs } from "@octopy/serverless-core";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
-import { workStationSchema } from "../../schemas/workStation";
-import { userSchema } from "../../schemas/user";
-import { roomSchema } from "../../schemas/room"
+import { locationSchema } from "../../schemas/location"
+import { ReservationEnum } from "../../helpers/shared/enums";
 
 const listReservation = async (event, context) => {
-    const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
-    
-    const work_stations = await wsReservationModel
-        .find()
-        .populate('work_station', { name: 1, _id: 0 })
-        .populate('user_id', { name: 1, _id: 0 })
+    const { collections: [wsReservationModel, roomReservationModel, locationModel] } = event.useMongo;
+    const location = (await Model(locationModel).getById(event.queryStringParameters.location))?.name || "";
+    const date = event.queryStringParameters.date || "";
+    const type = event.queryStringParameters.type;
+    const collection = type === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
+    let queryMatch;
 
-    const rooms = await roomReservationModel
-        .find()
-        .populate('room', { name: 1, _id: 0 })
-        .populate('user_id', { name: 1, _id: 0 })
-    return [...work_stations, ...rooms];
+    if (!date) {
+        queryMatch = {
+            $match: {
+                "reservation.location.name": { $regex: location, $options: "i" },
+            }
+        }
+    } else {
+        queryMatch = {
+            $match: {
+                "reservation.location.name": { $regex: location, $options: "i" },
+                start_date: dayjs(date).$d
+            }
+        }
+    }
+
+    const reservations = await collection.aggregate([
+        {
+            $lookup: {
+                from: type === ReservationEnum.work_station ? "work_stations" : "rooms",
+                localField: type === ReservationEnum.work_station ? "work_station" : "room",
+                pipeline: [
+                    {
+                        $lookup: {
+                            from: "locations",
+                            localField: "location",
+                            foreignField: "_id",
+                            as: "location",
+                        }
+                    },
+                    {
+                        $unwind: "$location"
+                    }
+                ],
+                foreignField: "_id",
+                as: "reservation",
+            },
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "user_id",
+                foreignField: "_id",
+                as: "user",
+            }
+        },
+        { $unwind: "$reservation" },
+        { $unwind: "$user" },
+        {
+            ...queryMatch
+        },
+        {
+            $project: {
+                _id: 1,
+                user: "$user.name",
+                name: "$reservation.name",
+                start_date: 1,
+                end_date: 1,
+                reservation_type: type,
+                location: "$reservation.location.name",
+                public_id: 1
+            },
+        }
+    ])
+
+    return reservations;
 }
 
 export const handler = use(listReservation, { httpCodes, langConfig, translations })
@@ -26,15 +84,12 @@ export const handler = use(listReservation, { httpCodes, langConfig, translation
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
     }))
-    .use(validateQueryParams(filterNameDTO, translations, { applyAutoparser: false }))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["work_station_reservations", "room_reservations", "work_stations", "rooms", "users"],
+        models: ["work_station_reservations", "room_reservations", "locations"],
         schemas: {
             work_station_reservations: workStationReservationSchema,
             room_reservations: roomReservationSchema,
-            work_stations: workStationSchema,
-            rooms: roomSchema,
-            users: userSchema
+            locations: locationSchema,
         }
     }))
