@@ -69,5 +69,16 @@
         }
       }
     ]
+  },
+  "catalogueLocation": {
+    "handler": "location/catalogueLocation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "location/catalogue",
+          "method": "get"
+        }
+      }
+    ]
   }
 }

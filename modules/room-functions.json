@@ -17,7 +17,7 @@
       {
         "http": {
           "path": "room/get/{id}",
-          "method":"get",
+          "method": "get",
           "cors": true
         }
       }
@@ -65,6 +65,17 @@
       {
         "http": {
           "path": "room/export",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "catalogueRoom": {
+    "handler": "room/catalogueRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/catalogue",
           "method": "get"
         }
       }
