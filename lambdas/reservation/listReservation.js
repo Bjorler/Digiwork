@@ -70,6 +70,7 @@ const listReservation = async (event, context) => {
                 start_date: 1,
                 end_date: 1,
                 reservation_type: type,
+                check_in: 1,
                 location: "$reservation.location.name",
                 public_id: 1
             },

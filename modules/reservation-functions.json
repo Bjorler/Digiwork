@@ -57,5 +57,17 @@
         }
       }
     ]
+  },
+  "avaliabilityReservation": {
+    "handler": "reservation/availabilityReservation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/available",
+          "method": "post",
+          "cors": true
+        }
+      }
+    ]
   }
 }
