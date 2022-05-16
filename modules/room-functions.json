@@ -93,7 +93,8 @@
       {
         "http": {
           "path": "room/catalogue",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]
