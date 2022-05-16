@@ -82,5 +82,16 @@
         }
       }
     ]
+  },
+  "catalogueRoom": {
+    "handler": "room/catalogueRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/catalogue",
+          "method": "get"
+        }
+      }
+    ]
   }
 }

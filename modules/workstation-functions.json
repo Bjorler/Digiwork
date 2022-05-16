@@ -82,5 +82,16 @@
         }
       }
     ]
+  },
+  "catalogueWorkstation": {
+    "handler": "workstation/catalogueWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/catalogue",
+          "method": "get"
+        }
+      }
+    ]
   }
 }
