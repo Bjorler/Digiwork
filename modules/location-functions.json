@@ -77,7 +77,8 @@
       {
         "http": {
           "path": "location/catalogue",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]

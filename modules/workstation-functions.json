@@ -89,7 +89,8 @@
       {
         "http": {
           "path": "workstation/catalogue",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]
