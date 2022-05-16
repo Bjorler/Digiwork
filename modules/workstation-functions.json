@@ -70,5 +70,28 @@
         }
       }
     ]
+  },
+  "reservationsWorkstation": {
+    "handler": "workstation/reservationsWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/check-reservations/{id}",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "catalogueWorkstation": {
+    "handler": "workstation/catalogueWorkstation.handler",
+    "events": [
+      {
+        "http": {
+          "path": "workstation/catalogue",
+          "method": "get"
+        }
+      }
+    ]
   }
 }

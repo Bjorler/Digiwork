@@ -17,7 +17,7 @@
       {
         "http": {
           "path": "room/get/{id}",
-          "method":"get",
+          "method": "get",
           "cors": true
         }
       }
@@ -67,6 +67,29 @@
           "path": "room/export",
           "method": "get",
           "cors": true
+        }
+      }
+    ]
+  },
+  "reservationsRoom": {
+    "handler": "room/reservationsRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/check-reservations/{id}",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "catalogueRoom": {
+    "handler": "room/catalogueRoom.handler",
+    "events": [
+      {
+        "http": {
+          "path": "room/catalogue",
+          "method": "get"
         }
       }
     ]
