@@ -81,5 +81,7 @@
   "endDateCurrentDay": "La fecha de termino debe ser mayor que la actual",
 
   "commentIsNotString": "El comentario debe ser un string",
-  "commentIsRequired": "El comentario no debe estar vacío"
+  "commentIsRequired": "El comentario no debe estar vacío",
+
+  "notCheckIn": "Error al hacer check-in de la reservación"
 }
