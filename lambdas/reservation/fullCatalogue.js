@@ -1,5 +1,5 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model} from "@octopy/serverless-core";
+import { use, mongo, authorizer} from "@octopy/serverless-core";
 import { roomSchema } from "../../schemas/room";
 import { workStationSchema } from "../../schemas/workStation";
 

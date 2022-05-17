@@ -81,7 +81,7 @@
     "events": [
       {
         "http": {
-          "path": "reservation/fullCatalogue",
+          "path": "reservation/full-catalogue",
           "method": "get"
         }
       }
