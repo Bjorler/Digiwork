@@ -29,7 +29,7 @@ const listRoom = async(event, context) => {
 export const handler = use(listRoom, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
-        roles: ["admin"]
+        roles: ["admin", "user"]
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
