@@ -75,5 +75,16 @@
         }
       }
     ]
+  },
+  "fullCatalogue": {
+    "handler": "reservation/fullCatalogue.handler",
+    "events": [
+      {
+        "http": {
+          "path": "reservation/fullCatalogue",
+          "method": "get"
+        }
+      }
+    ]
   }
 }
