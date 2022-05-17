@@ -1,102 +1,65 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer } from "@octopy/serverless-core";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
-import { generateCSVFile } from "../../helpers/shared/generate-csv-file"
+import { generateCSVFile } from "../../helpers/shared/generate-csv-file";
+import { ReservationEnum } from "../../helpers/shared/enums"
 
 const exportReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
 
-    const wsReservations = await wsReservationModel.aggregate([
-        {
-            $lookup: {
-                from: "work_stations",
-                localField: "work_station",
-                pipeline: [
-                    {
-                        $lookup: {
-                            from: "locations",
-                            localField: "location",
-                            foreignField: "_id",
-                            as: "location",
-                        }
-                    },
-                    {
-                        $unwind: "$location"
-                    }
-                ],
-                foreignField: "_id",
-                as: "reservation",
-            },
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "user_id",
-                foreignField: "_id",
-                as: "user",
-            }
-        },
-        { $unwind: "$reservation" },
-        { $unwind: "$user" },
-        {
-            $project: {
-                _id: 1,
-                user: "$user.name",
-                name: "$reservation.name",
-                start_date: 1,
-                end_date: 1,
-                reservation_type: "workstation",
-                location: "$reservation.location.name",
-                public_id: 1
-            },
-        }
-    ])
+    const reservations_types = ["workstation", "room"];
+    let reservations = [];
+    let collection;
 
-    const roomReservations = await roomReservationModel.aggregate([
-        {
-            $lookup: {
-                from: "rooms",
-                localField: "room",
-                pipeline: [
-                    {
-                        $lookup: {
-                            from: "locations",
-                            localField: "location",
-                            foreignField: "_id",
-                            as: "location",
+    for (const type in reservations_types) {
+        collection = reservations_types[type] === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
+        let ws = await collection.aggregate([
+            {
+                $lookup: {
+                    from: reservations_types[type] === ReservationEnum.work_station ? "work_stations" : "rooms",
+                    localField: reservations_types[type] === ReservationEnum.work_station ? "work_station" : "room",
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "locations",
+                                localField: "location",
+                                foreignField: "_id",
+                                as: "location",
+                            }
+                        },
+                        {
+                            $unwind: "$location"
                         }
-                    },
-                    {
-                        $unwind: "$location"
-                    }
-                ],
-                foreignField: "_id",
-                as: "reservation",
+                    ],
+                    foreignField: "_id",
+                    as: "reservation",
+                },
             },
-        },
-        {
-            $lookup: {
-                from: "users",
-                localField: "user_id",
-                foreignField: "_id",
-                as: "user",
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "user_id",
+                    foreignField: "_id",
+                    as: "user",
+                }
+            },
+            { $unwind: "$reservation" },
+            { $unwind: "$user" },
+            {
+                $project: {
+                    _id: 1,
+                    user: "$user.name",
+                    name: "$reservation.name",
+                    start_date: 1,
+                    end_date: 1,
+                    reservation_type: reservations_types[type],
+                    location: "$reservation.location.name",
+                    public_id: 1
+                },
             }
-        },
-        { $unwind: "$reservation" },
-        { $unwind: "$user" },
-        {
-            $project: {
-                _id: 1,
-                user: "$user.name",
-                name: "$reservation.name",
-                start_date: 1,
-                end_date: 1,
-                reservation_type: "room",
-                location: "$reservation.location.name",
-                public_id: 1
-            },
-        }
-    ])
+        ])
+        Array.prototype.push.apply(reservations, ws)
+    }
 
     const date = new Date();
     const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
@@ -111,7 +74,8 @@ const exportReservation = async (event, context) => {
             { id: "start_date", title: "Fecha" },
             { id: "user", title: "Usuario" },
         ],
-        content: [...wsReservations, ...roomReservations]
+        // content: [...wsReservations, ...roomReservations]
+        content: reservations
     },
         `Reservaciones_${day}-${month}-${date.getFullYear()}`)
     return {
