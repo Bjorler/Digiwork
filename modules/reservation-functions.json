@@ -53,7 +53,7 @@
       {
         "http": {
           "path": "reservation/export",
-          "method": "post",
+          "method": "get",
           "cors": true
         }
       }
