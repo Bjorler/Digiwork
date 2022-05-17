@@ -8,8 +8,8 @@ const listMyReservations = async (event, context) => {
     const { collections: [userModel, wsReservationModel, roomReservationModel] } = event.useMongo;
     const { payload } = event.useToken;
     const reservations_types = ["workstation", "room"];
-    const name_filter = event.queryStringParameters.name;
-    const location_filter = event.queryStringParameters?.location;
+    const name_filter = event.queryStringParameters?.name ?? '';
+    const location_filter = event.queryStringParameters?.location ?? null;
     let reservations = [];
     let collection;
 
@@ -21,15 +21,14 @@ const listMyReservations = async (event, context) => {
         }
     
         if (location_filter) {
-            match._id = location_filter
+            match.location = mongooseTypes.ObjectId(location_filter);
         }
 
 
         let ws = await collection.aggregate([
             {
                 $match: {
-                    user_id: mongooseTypes.ObjectId(payload._id),
-   
+                    user_id: mongooseTypes.ObjectId(payload._id),  
                 }
             },
             {
