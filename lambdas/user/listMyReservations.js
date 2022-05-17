@@ -1,5 +1,5 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, token, authorizer, mongooseTypes } from "@octopy/serverless-core";
+import { use, mongo, Model, token, authorizer, mongooseTypes, validateQueryParams } from "@octopy/serverless-core";
 import { userSchema } from "../../schemas/user";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
 import { ReservationEnum } from "../../helpers/shared/enums";
@@ -8,15 +8,27 @@ const listMyReservations = async (event, context) => {
     const { collections: [userModel, wsReservationModel, roomReservationModel] } = event.useMongo;
     const { payload } = event.useToken;
     const reservations_types = ["workstation", "room"];
+    const name_filter = event.queryStringParameters?.name ?? '';
+    const location_filter = event.queryStringParameters?.location ?? null;
     let reservations = [];
     let collection;
 
     for (const type in reservations_types) {
         collection = reservations_types[type] === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
+
+        const match = {
+            name: { $regex: name_filter, $options: "i"},
+        }
+    
+        if (location_filter) {
+            match.location = mongooseTypes.ObjectId(location_filter);
+        }
+
+
         let ws = await collection.aggregate([
             {
                 $match: {
-                    user_id: mongooseTypes.ObjectId(payload._id)
+                    user_id: mongooseTypes.ObjectId(payload._id),  
                 }
             },
             {
@@ -24,6 +36,9 @@ const listMyReservations = async (event, context) => {
                     from: reservations_types[type] === ReservationEnum.work_station ? "work_stations" : "rooms",
                     localField: reservations_types[type] === ReservationEnum.work_station ? "work_station" : "room",
                     pipeline: [
+                        {
+                            $match: match
+                        },
                         {
                             $lookup: {
                                 from: "locations",
