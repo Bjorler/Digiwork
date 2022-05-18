@@ -10,21 +10,12 @@ const listReservation = async (event, context) => {
     const date = event.queryStringParameters.date || "";
     const type = event.queryStringParameters.type;
     const collection = type === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
-    let queryMatch;
+    const queryMatch = {
+        "reservation.location.name": { $regex: location, $options: "i" },
+    };
 
-    if (!date) {
-        queryMatch = {
-            $match: {
-                "reservation.location.name": { $regex: location, $options: "i" },
-            }
-        }
-    } else {
-        queryMatch = {
-            $match: {
-                "reservation.location.name": { $regex: location, $options: "i" },
-                start_date: dayjs(date).$d
-            }
-        }
+    if (date) {
+        queryMatch.date_formated = date
     }
 
     const reservations = await collection.aggregate([
@@ -60,7 +51,12 @@ const listReservation = async (event, context) => {
         { $unwind: "$reservation" },
         { $unwind: "$user" },
         {
-            ...queryMatch
+            $addFields: {
+                date_formated: { $dateToString: { format: "%Y-%m-%dT%H:00:00.000Z", date: "$start_date" } }
+            }
+        },
+        {
+            $match: queryMatch
         },
         {
             $project: {
