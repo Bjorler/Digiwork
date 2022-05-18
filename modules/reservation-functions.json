@@ -82,7 +82,8 @@
       {
         "http": {
           "path": "reservation/full-catalogue",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]

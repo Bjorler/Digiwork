@@ -21,7 +21,7 @@ const listRoom = async(event, context) => {
         match.status = true
     }
 
-    const workstation = await roomModel.find(match)
+    const workstation = await roomModel.find(match).populate({path: 'location', select: 'name'})
 
     return workstation
 }
@@ -33,7 +33,7 @@ export const handler = use(listRoom, { httpCodes, langConfig, translations })
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
-        models: ["rooms"], 
+        models: ["rooms", "location"], 
         schemas: {
             rooms: roomSchema
         } 

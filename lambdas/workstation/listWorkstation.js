@@ -6,7 +6,7 @@ const listWorkstation = async(event, context) => {
     const { collections: [workStationModel] } = event.useMongo;
     const location_filter = event.queryStringParameters?.location
     const available_filter = event.queryStringParameters?.available ?? "false"
-    console.log(available_filter);
+
     const name_filter = event.queryStringParameters?.name ?? ""
 
     const match = {
@@ -21,7 +21,7 @@ const listWorkstation = async(event, context) => {
         match.status = true
     }
     console.log(match);
-    const workstation = await workStationModel.find(match)
+    const workstation = await workStationModel.find(match).populate({path: 'location', select: 'name'})
 
     return workstation
 }
@@ -33,7 +33,7 @@ export const handler = use(listWorkstation, { httpCodes, langConfig, translation
     }))
     .use(mongo({ 
         uri: process.env.MONGO_CONNECTION, 
-        models: ["work_stations"],
+        models: ["work_stations", "location"],
         schemas: {
             work_stations: workStationSchema
         } 
