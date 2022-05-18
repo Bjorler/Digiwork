@@ -1,0 +1,36 @@
+service: digiwork
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    restApiId: nqciw04bna
+    restApiRootResourceId: fc8rq1z4c4
+  environment: ${file(./config/env.${opt:stage,"dev"}.json)}
+  layers: ${file(./config/layers.dev.json)}
+package:
+  individually: true
+  patterns:
+    - templates/
+plugins:
+  - serverless-functions-base-path
+  - serverless-esbuild
+custom:
+  functionsBasePath: ./lambdas
+  esbuild:
+    packager: yarn
+    minify: true
+    nativeZip: true
+    exclude:
+      - '@octopy/serverless-core'
+      - '@octopy/serverless-auth'
+      - '@octopy/serverless-aws'
+      - generate-password
+      - csv-writer
+functions:
+  - ${file(./modules/${opt:module,'auth'}-functions.json)}
+  - ${file(./modules/${opt:module,'location'}-functions.json)}
+  - ${file(./modules/${opt:module,'workstation'}-functions.json)}
+  - ${file(./modules/${opt:module,'user'}-functions.json)}
+  - ${file(./modules/${opt:module,'reservation'}-functions.json)}
+  - ${file(./modules/${opt:module,'room'}-functions.json)}
