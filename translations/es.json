@@ -83,5 +83,5 @@
   "commentIsNotString": "El comentario debe ser un string",
   "commentIsRequired": "El comentario no debe estar vacío",
 
-  "notCheckIn": "Error al hacer check-in de la reservación"
+  "notCheckIn": "No es posible hacer check-in antes de la hora de inicio de la reservación"
 }
