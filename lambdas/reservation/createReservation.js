@@ -7,8 +7,9 @@ import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
 const createReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
     const { payload } = event.useToken;
-    const { reservation_type, start_date } = event.body;
+    const { reservation_type, start_date, end_date } = event.body;
     const parsed_start_date = new Date(start_date);
+    const parsed_end_date = new Date(end_date);
     
     const data = { 
         ...event.body, 
@@ -20,6 +21,7 @@ const createReservation = async (event, context) => {
     delete data.reservation_type;
     delete data.id_name;
     data.start_date = new Date(parsed_start_date).toISOString();
+    data.end_date = new Date(parsed_end_date).toISOString();
     
     if (reservation_type === ReservationEnum.work_station) {
         data.work_station = event.body.id_name;
