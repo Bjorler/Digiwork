@@ -7,7 +7,7 @@ import { ReservationEnum } from "../../helpers/shared/enums";
 const listReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel, locationModel] } = event.useMongo;
     const location = (await Model(locationModel).getById(event.queryStringParameters.location))?.name || "";
-    const date = event.queryStringParameters.date || "";
+    const date = event.queryStringParameters?.date || "";
     const type = event.queryStringParameters.type;
     const collection = type === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
     const queryMatch = {
@@ -15,7 +15,7 @@ const listReservation = async (event, context) => {
     };
 
     if (date) {
-        queryMatch.date_formated = date
+        queryMatch.date_formated = new Date(date).toISOString()
     }
 
     const reservations = await collection.aggregate([
