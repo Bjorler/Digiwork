@@ -1,5 +1,5 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, authorizer, validateBody, mongooseTypes, dayjs } from "@octopy/serverless-core";
+import { use, mongo, authorizer, validateBody, mongooseTypes } from "@octopy/serverless-core";
 import { availabilityReservationDTO } from "../../models/reservation/availabilityReservationDTO";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation"
 import { ReservationEnum } from "../../helpers/shared/enums";
@@ -9,16 +9,18 @@ const availabilityReservation = async (event, context) => {
     const { reservation_type, end_date, start_date, id_name } = event.body;
     let available;
     let reservations;
+    const parse_start_date = new Date(start_date).toISOString();
+    const parse_end_date = new Date(end_date).toISOString();
 
     const dateMatch = {
         $or: [
             {
-                start_date: { $lte: dayjs(start_date).$d },
-                end_date: { $gte: dayjs(end_date).$d }
+                start_date: { $lt: parse_start_date },
+                end_date: { $gt: parse_end_date }
             },
             {
-                start_date: { $lte: dayjs(end_date).$d },
-                end_date: { $gte: dayjs(start_date).$d }
+                start_date: { $lt: parse_end_date },
+                end_date: { $gt: parse_start_date }
             },
         ]
     }

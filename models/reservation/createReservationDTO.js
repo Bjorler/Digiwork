@@ -14,11 +14,11 @@ export const createReservationDTO = Joi.object({
         "string.pattern.base": "idNameInvalid",
         "any.required": "idNameRequired"
     }),
-    start_date: Joi.date().greater("now").required().messages({
+    start_date: Joi.date().required().messages({
         "any.required": "startDateRequired",
         "date.greater": "startDateCurrentDay",
     }),
-    end_date: Joi.date().greater("now").required().messages({
+    end_date: Joi.date().required().messages({
         "any.required": "endDateRequired",
         "date.greater": "endDateCurrentDay",
     }),
