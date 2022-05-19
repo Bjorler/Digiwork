@@ -16,8 +16,7 @@ const checkInReservation = async (event, context) => {
     const reservation = await collection.findOneAndUpdate({
         _id: id,
         user_id: mongooseTypes.ObjectId(payload._id),
-        start_date: { $lte: current_date },
-        end_date: { $gte: current_date }
+        start_date: { $lte: current_date }
     }, {
         check_in: true
     })
