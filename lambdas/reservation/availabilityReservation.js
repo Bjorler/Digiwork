@@ -2,7 +2,7 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer, validateBody, mongooseTypes } from "@octopy/serverless-core";
 import { availabilityReservationDTO } from "../../models/reservation/availabilityReservationDTO";
 import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation"
-import { ReservationEnum } from "../../helpers/shared/enums";
+import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
 
 const availabilityReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
@@ -28,11 +28,13 @@ const availabilityReservation = async (event, context) => {
     if(reservation_type === ReservationEnum.work_station) {
         reservations = await wsReservationModel.find({
             work_station: mongooseTypes.ObjectId(id_name),
+            status: ReservationStatus.approved,
             ...dateMatch
         })
     } else {
         reservations = await roomReservationModel.find({
             room: mongooseTypes.ObjectId(id_name),
+            status: ReservationStatus.approved,
             ...dateMatch
         })
     }
