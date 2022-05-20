@@ -1,7 +1,7 @@
 import  generator  from 'generate-password';
 
 export function createPassword() {
-    let extension = Math.random() * (16 - 8) + 8;
+    let extension = Math.random() * (12 - 8) + 8;
     let password = generator.generate({
         length: extension,
         numbers: true,
