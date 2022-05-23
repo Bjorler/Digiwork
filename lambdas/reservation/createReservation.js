@@ -15,7 +15,7 @@ const createReservation = async (event, context) => {
         ...event.body, 
         user_id: payload?._id, 
         status: ReservationStatus.approved,
-        check_in: false,
+        check_in: payload.role === "admin" ? true : false,
     }
     
     delete data.reservation_type;
