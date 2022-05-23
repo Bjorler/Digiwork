@@ -9,6 +9,7 @@
     "aws:serverless-aws": "yarn add @octopy/serverless-aws",
     "deploy:dev": "sls deploy -c deploy.yml -s dev",
     "deploy:prod": "sls deploy -c deploy.prod.yml -s prod",
+    "deploy:pre": "sls deploy -c deploy.pre.yml -s pre",
     "deploy:qa": "sls deploy -c deploy.qa.yml -s qa",
     "dev": "sls offline",
     "offline": "sls offline",
