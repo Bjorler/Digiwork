@@ -19,7 +19,8 @@
     "dev:parking": "sls offline --module parking",
     "dev:user": "sls offline --module user",
     "dev:reservation": "sls offline --module reservation",
-    "dev:room": "sls offline --module room"
+    "dev:room": "sls offline --module room",
+    "dev:notification": "sls offline --module notification"
   },
   "devDependencies": {
     "esbuild": "^0.14.10",

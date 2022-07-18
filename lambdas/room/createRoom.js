@@ -6,9 +6,7 @@ import { createRoomDTO } from "../../models/room/createRoomDTO";
 
 const createRoom = async(event, context) => {
     const { collections: [roomModel] } = event.useMongo;
-    console.log('body', event.body);
     const room = await roomModel.create(event.body);
-    console.log('room', room);
     return room
 }
 
