@@ -83,5 +83,7 @@
   "commentIsNotString": "El comentario debe ser un string",
   "commentIsRequired": "El comentario no debe estar vacío",
 
-  "notCheckIn": "No es posible hacer check-in antes de la hora de inicio de la reservación"
+  "notCheckIn": "No es posible hacer check-in antes de la hora de inicio de la reservación",
+
+  "createNotification": "La notificacion debe incluir al menos una imagen o un mensaje"
 }

@@ -1,6 +1,7 @@
 export const ReservationEnum = {
     room: "room",
-    work_station: "workstation"
+    work_station: "workstation",
+    parking: "parking"
 }
 
 export const ReservationStatus = {

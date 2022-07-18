@@ -1,0 +1,58 @@
+{
+  "create": {
+    "handler": "notification/createNotification.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/create",
+          "method": "post",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "deleteNotification": {
+    "handler": "notification/deleteNotification.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/delete/{id}",
+          "method": "delete"
+        }
+      }
+    ]
+  },
+  "getNotification": {
+    "handler": "notification/getNotification.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/get/{id}",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "listNotification": {
+    "handler": "notification/listNotification.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/list",
+          "method": "get"
+        }
+      }
+    ]
+  },
+  "updateNotification": {
+    "handler": "notification/updateNotification.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/update/{id}",
+          "method": "put"
+        }
+      }
+    ]
+  }
+}

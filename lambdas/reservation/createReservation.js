@@ -1,11 +1,11 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, validateBody, token, authorizer } from "@octopy/serverless-core";
-import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation"
+import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation"
 import { createReservationDTO } from "../../models/reservation/createReservationDTO"
 import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
 
 const createReservation = async (event, context) => {
-    const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
+    const { collections: [wsReservationModel, roomReservationModel, pReservationModel ] } = event.useMongo;
     const { payload } = event.useToken;
     const { reservation_type, start_date, end_date } = event.body;
     const parsed_start_date = new Date(start_date);
@@ -25,15 +25,27 @@ const createReservation = async (event, context) => {
     
     if (reservation_type === ReservationEnum.work_station) {
         data.work_station = event.body.id_name;
-    } else {
+    } else if (reservation_type === ReservationEnum.room) {
         data.room = event.body.id_name;
+    } else {
+        data.parking = event.body.id_name;
     }
 
-    const reservation = await Model(reservation_type === ReservationEnum.work_station
-        ? wsReservationModel
-        : roomReservationModel
-    ).create(data)
-
+    let modelo;
+    switch (reservation_type) {
+        case ReservationEnum.work_station:
+            modelo = wsReservationModel
+            break;
+        case ReservationEnum.room:
+            modelo = roomReservationModel
+            break;
+        case ReservationEnum.parking:
+            modelo = pReservationModel
+            break;
+        default: throw { scode: 'reservationNotFound'};
+    }
+    
+    const reservation = await Model(modelo).create(data)
     return reservation;
 }
 
@@ -45,10 +57,11 @@ export const handler = use(createReservation, { httpCodes, langConfig, translati
     .use(validateBody(createReservationDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["work_station_reservations", "room_reservations"],
+        models: ["work_station_reservations", "room_reservations", "parking_reservations"],
         schemas: {
             work_station_reservations: workStationReservationSchema,
-            room_reservations: roomReservationSchema
+            room_reservations: roomReservationSchema,
+            parking_reservations: parkingReservationSchema
         }
     }))
     .use(token(process.env.SECRET_KEY))
