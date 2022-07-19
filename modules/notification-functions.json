@@ -17,7 +17,8 @@
       {
         "http": {
           "path": "notification/delete/{id}",
-          "method": "delete"
+          "method": "delete",
+          "cors": true
         }
       }
     ]
@@ -28,7 +29,8 @@
       {
         "http": {
           "path": "notification/get/{id}",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]
@@ -39,7 +41,8 @@
       {
         "http": {
           "path": "notification/list",
-          "method": "get"
+          "method": "get",
+          "cors": true
         }
       }
     ]
@@ -50,7 +53,8 @@
       {
         "http": {
           "path": "notification/update/{id}",
-          "method": "put"
+          "method": "put",
+          "cors": true
         }
       }
     ]
