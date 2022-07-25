@@ -1,17 +1,22 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, authorizer, dayjs } from "@octopy/serverless-core";
-import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
-import { locationSchema } from "../../schemas/location"
+import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation";
+import { locationSchema } from "../../schemas/location";
 import { ReservationEnum } from "../../helpers/shared/enums";
 
 const listReservation = async (event, context) => {
-    const { collections: [wsReservationModel, roomReservationModel, locationModel] } = event.useMongo;
-    const location = (await Model(locationModel).getById(event.queryStringParameters.location))?.name || "";
+    const { collections: [wsReservationModel, roomReservationModel, parkingReservationModel] } = event.useMongo;
+    
+    // const location = (await Model(locationModel).getById(event.queryStringParameters.location))?.name || "";
     const date = event.queryStringParameters?.date || "";
     const type = event.queryStringParameters.type;
-    const collection = type === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
+
+    const collection = type === ReservationEnum.work_station 
+        ? wsReservationModel 
+        : ReservationEnum.room ? roomReservationModel
+        : parkingReservationModel;
     const queryMatch = {
-        "reservation.location.name": { $regex: location, $options: "i" },
+        // "reservation.location.name": { $regex: location, $options: "i" },
     };
 
     if (date) {
@@ -21,8 +26,12 @@ const listReservation = async (event, context) => {
     const reservations = await collection.aggregate([
         {
             $lookup: {
-                from: type === ReservationEnum.work_station ? "work_stations" : "rooms",
-                localField: type === ReservationEnum.work_station ? "work_station" : "room",
+                from: type === ReservationEnum.work_station ? "work_stations" 
+                : ReservationEnum.room ? "rooms" 
+                : "parkings",
+                localField: type === ReservationEnum.work_station ? "work_station" 
+                : ReservationEnum.room ? "room" 
+                : "parking",
                 pipeline: [
                     {
                         $lookup: {
@@ -40,6 +49,7 @@ const listReservation = async (event, context) => {
                 as: "reservation",
             },
         },
+        // { $unwind: "$reservation" },
         {
             $lookup: {
                 from: "users",
@@ -47,30 +57,29 @@ const listReservation = async (event, context) => {
                 foreignField: "_id",
                 as: "user",
             }
-        },
-        { $unwind: "$reservation" },
-        { $unwind: "$user" },
-        {
-            $addFields: {
-                date_formated: { $dateToString: { format: "%Y-%m-%dT%H:00:00.000Z", date: "$start_date" } }
-            }
-        },
-        {
-            $match: queryMatch
-        },
-        {
-            $project: {
-                _id: 1,
-                user: "$user.name",
-                name: "$reservation.name",
-                start_date: 1,
-                end_date: 1,
-                reservation_type: type,
-                check_in: 1,
-                location: "$reservation.location.name",
-                public_id: 1
-            },
-        }
+        },     
+        // { $unwind: "$user" },
+        // {
+        //     $addFields: {
+        //         date_formated: { $dateToString: { format: "%Y-%m-%dT%H:00:00.000Z", date: "$start_date" } }
+        //     }
+        // },
+        // {
+        //     $match: queryMatch
+        // },
+        // {
+        //     $project: {
+        //         _id: 1,
+        //         user: "$user.name",
+        //         name: "$reservation.name",
+        //         start_date: 1,
+        //         end_date: 1,
+        //         reservation_type: type,
+        //         check_in: 1,
+        //         location: "$reservation.location.name",
+        //         public_id: 1
+        //     },
+        // }
     ])
 
     return reservations;
@@ -83,10 +92,11 @@ export const handler = use(listReservation, { httpCodes, langConfig, translation
     }))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["work_station_reservations", "room_reservations", "locations"],
+        models: ["work_station_reservations", "room_reservations", "parking_reservations"],
         schemas: {
             work_station_reservations: workStationReservationSchema,
             room_reservations: roomReservationSchema,
+            parking_reservations: parkingReservationSchema,
             locations: locationSchema,
         }
     }))

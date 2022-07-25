@@ -36,5 +36,13 @@
     "generate-password": "^1.7.0",
     "csv-writer": "^1.6.0",
     "mongoose": "^6.3.3"
-  }
+  },
+  "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
+  "main": "commonIncludes.js",
+  "repository": {
+    "type": "git",
+    "url": "git@springlabsdevs.net:cdmx/novo2/serverless-digiwork.git"
+  },
+  "keywords": [],
+  "author": ""
 }

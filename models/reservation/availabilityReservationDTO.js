@@ -3,7 +3,7 @@ import { ReservationEnum } from "../../helpers/shared/enums";
 import { objectIdRegex } from "../../helpers/shared/regex"
 
 export const availabilityReservationDTO = Joi.object({
-    reservation_type: Joi.string().valid(ReservationEnum.room, ReservationEnum.work_station).required().messages({
+    reservation_type: Joi.string().valid(ReservationEnum.room, ReservationEnum.work_station, ReservationEnum.parking).required().messages({
         "string.base": "reservationTypeIsString",
         "any.only": "reservationTypeInvalid",
         "any.required": "reservationTypeRequired"

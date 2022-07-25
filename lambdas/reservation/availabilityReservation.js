@@ -1,11 +1,11 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer, validateBody, mongooseTypes } from "@octopy/serverless-core";
 import { availabilityReservationDTO } from "../../models/reservation/availabilityReservationDTO";
-import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation"
+import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation"
 import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
 
 const availabilityReservation = async (event, context) => {
-    const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
+    const { collections: [wsReservationModel, roomReservationModel, parkingReservationModel] } = event.useMongo;
     const { reservation_type, end_date, start_date, id_name } = event.body;
     let available;
     let reservations;
@@ -31,10 +31,16 @@ const availabilityReservation = async (event, context) => {
             status: ReservationStatus.approved,
             ...dateMatch
         })
-    } else {
+    } else if (reservation_type === ReservationEnum.room) {
         reservations = await roomReservationModel.find({
             room: mongooseTypes.ObjectId(id_name),
             status: ReservationStatus.approved,
+            ...dateMatch
+        })
+    } else {
+        reservations = await parkingReservationModel.find({
+            parking: mongooseTypes.ObjectId(id_name),
+            status : ReservationStatus.approved,
             ...dateMatch
         })
     }
@@ -52,9 +58,10 @@ export const handler = use(availabilityReservation, { httpCodes, langConfig, tra
     .use(validateBody(availabilityReservationDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["work_station_reservations", "room_reservations"],
+        models: ["work_station_reservations", "room_reservations", "parking_reservations"],
         schemas: {
             work_station_reservations: workStationReservationSchema,
-            room_reservations: roomReservationSchema
+            room_reservations: roomReservationSchema,
+            parking_reservations: parkingReservationSchema
         }
     }))

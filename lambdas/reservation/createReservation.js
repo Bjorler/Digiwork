@@ -3,6 +3,8 @@ import { use, mongo, Model, validateBody, token, authorizer } from "@octopy/serv
 import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation"
 import { createReservationDTO } from "../../models/reservation/createReservationDTO"
 import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
+import { AuthEmailRepository } from "../../helpers/auth/AuthEmailRepository"
+
 
 const createReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel, pReservationModel ] } = event.useMongo;
@@ -46,6 +48,12 @@ const createReservation = async (event, context) => {
     }
     
     const reservation = await Model(modelo).create(data)
+
+    await new AuthEmailRepository("reservation", "Notificacion de reservacion", {
+        home: process.env.APP_FRONTEND_BASE_URL,
+        email: event.body.email,
+    }).sendEmail();
+
     return reservation;
 }
 
