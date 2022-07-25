@@ -20,7 +20,7 @@ const listparking = async(event, context) => {
     if (available_filter == "true") {
         match.status = true
     }
-    console.log(match);
+   
     const parking = await parkingModel.find(match).populate({path: 'location', select: 'name'})
 
     return parking

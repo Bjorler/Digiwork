@@ -1,23 +1,32 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer } from "@octopy/serverless-core";
-import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
+import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation";
 import { generateCSVFile } from "../../helpers/shared/generate-csv-file";
 import { ReservationEnum } from "../../helpers/shared/enums"
 
 const exportReservation = async (event, context) => {
-    const { collections: [wsReservationModel, roomReservationModel] } = event.useMongo;
+    const { collections: [wsReservationModel, roomReservationModel, parkingReservationModel] } = event.useMongo;
 
-    const reservations_types = ["workstation", "room"];
+    const reservations_types = ["workstation", "room", "parking"];
     let reservations = [];
     let collection;
 
     for (const type in reservations_types) {
-        collection = reservations_types[type] === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
+        collection = reservations_types[type] === ReservationEnum.work_station 
+        ? wsReservationModel 
+        : ReservationEnum.room ? roomReservationModel
+        : parkingReservationModel
         let ws = await collection.aggregate([
             {
                 $lookup: {
-                    from: reservations_types[type] === ReservationEnum.work_station ? "work_stations" : "rooms",
-                    localField: reservations_types[type] === ReservationEnum.work_station ? "work_station" : "room",
+                    from: reservations_types[type] === ReservationEnum.work_station 
+                    ? "work_stations" 
+                    : ReservationEnum.room ? "rooms" 
+                    : "parkings",
+                    localField: reservations_types[type] === ReservationEnum.work_station 
+                    ? "work_station" 
+                    : ReservationEnum.room ? "room" 
+                    : "parking",
                     pipeline: [
                         {
                             $lookup: {
@@ -52,7 +61,7 @@ const exportReservation = async (event, context) => {
                     name: "$reservation.name",
                     start_date: 1,
                     end_date: 1,
-                    reservation_type: reservations_types[type],
+                    type: reservations_types[type],
                     location: "$reservation.location.name",
                     public_id: 1
                 },
@@ -68,13 +77,13 @@ const exportReservation = async (event, context) => {
     const generated = await generateCSVFile({
         headers: [
             { id: "public_id", title: "ID" },
-            { id: "location", title: "Ubicación" },
-            { id: "reservation_type", title: "Tipo de reservación" },
+            { id: "location", title: "Ubicacion" },
+            { id: "type", title: "Tipo de reservacion" },
             { id: "name", title: "Nombre" },
             { id: "start_date", title: "Fecha" },
             { id: "user", title: "Usuario" },
         ],
-        // content: [...wsReservations, ...roomReservations]
+
         content: reservations
     },
         `Reservaciones_${day}-${month}-${date.getFullYear()}`)
@@ -90,9 +99,10 @@ export const handler = use(exportReservation, { httpCodes, langConfig, translati
     }))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["work_station_reservations", "room_reservations", "locations"],
+        models: ["work_station_reservations", "room_reservations", "parking_reservations", "locations"],
         schemas: {
             work_station_reservations: workStationReservationSchema,
-            room_reservations: roomReservationSchema
+            room_reservations: roomReservationSchema,
+            parking_reservations: parkingReservationSchema
         }
     }))

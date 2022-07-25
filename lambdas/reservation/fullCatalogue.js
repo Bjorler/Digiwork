@@ -2,9 +2,10 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer} from "@octopy/serverless-core";
 import { roomSchema } from "../../schemas/room";
 import { workStationSchema } from "../../schemas/workStation";
+import { parkingSchema } from "../../schemas/parking";
 
 const fullCatalogue = async(event, context) => {
-    const { collections: [roomModel, workStationModel] } = event.useMongo;
+    const { collections: [roomModel, workStationModel, parkingModel] } = event.useMongo;
     const type_filter = event.queryStringParameters.type;
     
     const query = [{
@@ -18,6 +19,10 @@ const fullCatalogue = async(event, context) => {
             }
         }
     }];
+
+    if (type_filter == 'parking') {
+        return await parkingModel.aggregate(query);
+    }
 
     if(type_filter == 'room') {
         return await roomModel.aggregate(query);
@@ -33,5 +38,6 @@ export const handler = use(fullCatalogue, { httpCodes, langConfig, translations 
     }))
     .use(mongo({ uri: process.env.MONGO_CONNECTION, models: ["rooms", "work_stations"], schemas: {
         room: roomSchema,
-        work_stations: workStationSchema
+        work_stations: workStationSchema,
+        parking: parkingSchema
     } }))
