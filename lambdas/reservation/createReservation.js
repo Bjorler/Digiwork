@@ -1,13 +1,14 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, validateBody, token, authorizer } from "@octopy/serverless-core";
-import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation"
+import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation";
+import { userSchema } from "../../schemas/user";
 import { createReservationDTO } from "../../models/reservation/createReservationDTO"
 import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
-import { AuthEmailRepository } from "../../helpers/auth/AuthEmailRepository"
+import { EmailNotification } from "../../helpers/auth/EmailNotification"
 
 
 const createReservation = async (event, context) => {
-    const { collections: [wsReservationModel, roomReservationModel, pReservationModel ] } = event.useMongo;
+    const { collections: [wsReservationModel, roomReservationModel, pReservationModel, userModel ] } = event.useMongo;
     const { payload } = event.useToken;
     const { reservation_type, start_date, end_date } = event.body;
     const parsed_start_date = new Date(start_date);
@@ -48,13 +49,21 @@ const createReservation = async (event, context) => {
     }
     
     const reservation = await Model(modelo).create(data)
+    const user = await Model(userModel).getById(data.user_id);
 
-    await new AuthEmailRepository("reservation", "Notificacion de reservacion", {
-        home: process.env.APP_FRONTEND_BASE_URL,
-        email: event.body.email,
+    if(!reservation || !user) {
+        throw { scode: 'notificationFailed'};
+    }
+
+    await new EmailNotification("reservationAlert", "Notificacion de Reservacion", { 
+        email: user.email, // para hacer pruebas usar correo personal: 'gth086@gmail.com'
+        reservation_date: new Date(reservation.start_date).toLocaleDateString(),
+        reservation_hour: new Date(reservation.start_date).toLocaleTimeString()
     }).sendEmail();
 
     return reservation;
+
+    // lista de usuarios activos en un select para notifications individual y masiva 
 }
 
 export const handler = use(createReservation, { httpCodes, langConfig, translations })
@@ -65,11 +74,12 @@ export const handler = use(createReservation, { httpCodes, langConfig, translati
     .use(validateBody(createReservationDTO, translations))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["work_station_reservations", "room_reservations", "parking_reservations"],
+        models: ["work_station_reservations", "room_reservations", "parking_reservations", "users"],
         schemas: {
             work_station_reservations: workStationReservationSchema,
             room_reservations: roomReservationSchema,
-            parking_reservations: parkingReservationSchema
+            parking_reservations: parkingReservationSchema,
+            userModel: userSchema
         }
     }))
     .use(token(process.env.SECRET_KEY))

@@ -66,6 +66,7 @@
 
   "reservationNotFound": "No se encontró el recurso solicitado",
   "cancellReservationError": "Error al cancelar la reservación",
+  "notificationFailed": "Falló al crear la reservación",
 
   "reservationTypeIsString": "El tipo de reservación debe ser un string",
   "reservationTypeInvalid": "El tipo de reservación debe ser: 'workstation' o 'room'",
