@@ -10,11 +10,6 @@ const cancelReservation = async (event, context) => {
     const { id } = event.pathParameters;
     const { type } = event.body;
 
-    // const reservation = await Model(reservation_type === ReservationEnum.work_station
-    //     ? wsReservationModel 
-    //     : ReservationEnum.room ? roomReservationModel
-    //     : parkingReservationModel
-
         let modelo;
     switch (type) {
         case ReservationEnum.work_station:
@@ -28,11 +23,6 @@ const cancelReservation = async (event, context) => {
             break;
         default: throw { scode: 'cancellReservationError'};
     }
-    // ).updateById(id, { status: ReservationStatus.cancelled })
-
-    // if (!reservation) {
-    //     throw { scode: "cancellReservationError" }
-    // }
 
     const reservation = await Model(modelo).updateById(id, { status: ReservationStatus.cancelled })
 
@@ -42,7 +32,7 @@ const cancelReservation = async (event, context) => {
 export const handler = use(cancelReservation, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
-        roles: ["admin"]
+        roles: ["admin", "user"]
     }))
     .use(validatePathParams(mongoIdDTO, translations))
     .use(validateBody(getReservationDTO, translations))
