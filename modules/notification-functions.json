@@ -64,8 +64,8 @@
     "events": [
       {
         "http": {
-          "path": "notification/deleteManyNotification/{id}",
-          "method": "delete",
+          "path": "notification/deleteManyNotification",
+          "method": "post",
           "cors": true
         }
       }
