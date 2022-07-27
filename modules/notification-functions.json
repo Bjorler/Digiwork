@@ -58,5 +58,17 @@
         }
       }
     ]
+  },
+  "deleteManyNotification": {
+    "handler": "notification/deleteManyNotification.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/deleteManyNotification",
+          "method": "delete",
+          "cors": true
+        }
+      }
+    ]
   }
 }
