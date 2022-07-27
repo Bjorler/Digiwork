@@ -5,8 +5,9 @@ import { notificationSchema } from "../../schemas/notification";
 
 const deleteNotification = async(event, context) => {
     const { collections: [notificationModel] } = event.useMongo;
-    const ids = event.queryStringParameters?.ids;
-    const notification = await notificationModel.deleteMany(ids);
+    const body = JSON.parse(event.body);
+    console.log(body.ids);
+    const notification = await notificationModel.deleteMany({_id: { $in: body.ids}});
     
     return notification;
 }
