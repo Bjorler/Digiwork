@@ -15,5 +15,10 @@ export const createNotificationDTO = Joi.object({
   image: Joi.string().trim().not().empty().required().messages({
     "string.empty": "imageRequired",
     "any.required": "imageRequired"
-  })
+  }),
+  to: Joi.array().items(Joi.string().trim().not().empty().required().messages({
+    "string.base": "toIsNotString",
+    "string.empty": "toRequired",
+    "any.required": "toRequired"
+  }))
 });

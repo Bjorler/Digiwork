@@ -1,13 +1,24 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, authorizer} from "@octopy/serverless-core";
+import { use, mongo, authorizer, token} from "@octopy/serverless-core";
 import { notificationSchema } from "../../schemas/notification";
+import { userSchema } from "../../schemas/user";
 
 
 const listNotification = async(event, context) => {
-    const { collections: [notificationModel] } = event.useMongo;
-    const notification = await notificationModel.find();
+    const { collections: [notificationModel, userModel] } = event.useMongo;
+    const { payload } = event.useToken;
     
-    return notification;
+    const myUser = await userModel.findById(payload._id);
+    const notification_ids =  myUser.notifications.map( notification => {
+        return notification.notification_id;
+    })
+    console.log(notification_ids, 'truena');
+    
+    const myNotifications = await notificationModel.find({
+        _id: { $in: notification_ids }
+    });
+    
+    return myNotifications;
 }
 
 export const handler = use(listNotification, { httpCodes, langConfig, translations })
@@ -17,8 +28,10 @@ export const handler = use(listNotification, { httpCodes, langConfig, translatio
     }))
     .use(mongo({ 
     uri: process.env.MONGO_CONNECTION, 
-    models: ["notifications"], 
+    models: ["notifications", "users"], 
     schemas: {
-        notifications: notificationSchema
+        notifications: notificationSchema,
+        users: userSchema,
     } 
-}));
+}))
+    .use(token(process.env.SECRET_KEY))

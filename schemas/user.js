@@ -25,7 +25,17 @@ export const userSchema = new Schema({
         type: Boolean,
         default: false,
         required: true
-    }
+    },
+    notifications: [{
+        notification_id: {
+            type:Schema.Types.ObjectId,
+            ref: 'notification'
+        },
+        readed: {
+            type: Boolean,
+            default: false
+        }
+    }]
 }, {
     timestamps: {
         createdAt: "created_at",
