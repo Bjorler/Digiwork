@@ -3,7 +3,7 @@ import { use, mongo, authorizer} from "@octopy/serverless-core";
 import { notificationSchema } from "../../schemas/notification";
 
 
-const deleteNotification = async(event, context) => {
+const deleteManyNotification = async(event, context) => {
     const { collections: [notificationModel] } = event.useMongo;
     const body = JSON.parse(event.body);
     console.log(body.ids);
@@ -12,7 +12,7 @@ const deleteNotification = async(event, context) => {
     return notification;
 }
 
-export const handler = use(deleteNotification, { httpCodes, langConfig, translations })
+export const handler = use(deleteManyNotification, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin", "user"]
