@@ -20,13 +20,16 @@ const listReservation = async (event, context) => {
 
     let reservations;
     if(reservation_type == ReservationEnum.work_station) {
-        reservations = await wsReservationModel.find(filter).populate('user_id')
+        reservations = await wsReservationModel.find(filter)
+            .populate('user_id')
             .populate({ path: 'work_station', populate: { path: 'location' } })
     } else if(reservation_type == ReservationEnum.room) {
-        reservations = await roomReservationModel.find(filter).populate('user_id')
+        reservations = await roomReservationModel.find(filter)
+            .populate('user_id')
             .populate({ path: 'room', populate: { path: 'location' } })
     } else {
-        reservations = await parkingReservationModel.find(filter).populate('user_id')
+        reservations = await parkingReservationModel.find(filter)
+            .populate('user_id')
             .populate({ path: 'parking', populate: { path: 'location' } })
     }
 

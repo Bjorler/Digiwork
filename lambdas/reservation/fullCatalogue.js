@@ -7,7 +7,6 @@ import { parkingSchema } from "../../schemas/parking";
 const fullCatalogue = async(event, context) => {
     const { collections: [roomModel, workStationModel, parkingModel] } = event.useMongo;
     const type_filter = event.queryStringParameters?.type_filter;
-    console.log(type_filter);
     const query = [{
         $group: {
             _id: "$location",
