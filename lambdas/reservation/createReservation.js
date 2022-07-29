@@ -63,7 +63,6 @@ const createReservation = async (event, context) => {
 
     return reservation;
 
-    // lista de usuarios activos en un select para notifications individual y masiva 
 }
 
 export const handler = use(createReservation, { httpCodes, langConfig, translations })

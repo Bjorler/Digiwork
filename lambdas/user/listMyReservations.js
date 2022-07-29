@@ -1,20 +1,20 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, token, authorizer, mongooseTypes, validateQueryParams } from "@octopy/serverless-core";
 import { userSchema } from "../../schemas/user";
-import { workStationReservationSchema, roomReservationSchema } from "../../schemas/reservation";
+import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation";
 import { ReservationEnum } from "../../helpers/shared/enums";
 
 const listMyReservations = async (event, context) => {
-    const { collections: [userModel, wsReservationModel, roomReservationModel] } = event.useMongo;
+    const { collections: [userModel, wsReservationModel, roomReservationModel, parkingRservationModel] } = event.useMongo;
     const { payload } = event.useToken;
-    const reservations_types = ["workstation", "room"];
-    const name_filter = event.queryStringParameters?.name ?? '';
-    const location_filter = event.queryStringParameters?.location ?? null;
+    const reservations_types = ["workstation", "room", "parking"];
+    const name_filter = event.queryStringParameters?.name_filter ?? '';
+    const location_filter = event.queryStringParameters?.location_filter ?? null;
     let reservations = [];
     let collection;
 
     for (const type in reservations_types) {
-        collection = reservations_types[type] === ReservationEnum.work_station ? wsReservationModel : roomReservationModel;
+        collection = reservations_types[type] === ReservationEnum.work_station ? ReservationEnum.room : parkingRservationModel ;
 
         const match = {
             name: { $regex: name_filter, $options: "i"},
@@ -33,8 +33,8 @@ const listMyReservations = async (event, context) => {
             },
             {
                 $lookup: {
-                    from: reservations_types[type] === ReservationEnum.work_station ? "work_stations" : "rooms",
-                    localField: reservations_types[type] === ReservationEnum.work_station ? "work_station" : "room",
+                    from: reservations_types[type] === ReservationEnum.work_station ? ReservationEnum.room : "parkings",
+                    localField: reservations_types[type] === ReservationEnum.work_station ? ReservationEnum.room : "parking",
                     pipeline: [
                         {
                             $match: match
@@ -83,11 +83,12 @@ export const handler = use(listMyReservations, { httpCodes, langConfig, translat
     }))
     .use(mongo({
         uri: process.env.MONGO_CONNECTION,
-        models: ["users", "work_station_reservations", "room_reservations"],
+        models: ["users", "work_station_reservations", "room_reservations", "parking_reservations"],
         schemas: {
             users: userSchema,
             work_station_reservations: workStationReservationSchema,
             room_reservations: roomReservationSchema,
+            parking_reservations: parkingReservationSchema
         }
     }))
     .use(token(process.env.SECRET_KEY))
