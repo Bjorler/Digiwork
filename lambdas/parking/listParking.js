@@ -2,7 +2,7 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer} from "@octopy/serverless-core";
 import { parkingSchema } from "../../schemas/parking";
 
-const listparking = async(event, context) => {
+const listParking = async(event, context) => {
     const { collections: [parkingModel] } = event.useMongo;
     const location_filter = event.queryStringParameters?.location
     const available_filter = event.queryStringParameters?.available ?? "false"
@@ -26,7 +26,7 @@ const listparking = async(event, context) => {
     return parking
 }
 
-export const handler = use(listparking, { httpCodes, langConfig, translations })
+export const handler = use(listParking, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin", "user"]
