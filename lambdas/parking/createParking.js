@@ -3,12 +3,12 @@ import { use, mongo, validateBody,authorizer } from "@octopy/serverless-core";
 import { parkingSchema } from "../../schemas/parking";
 import { createParkingDTO } from "../../models/parking/createParkingDTO";
 
-const createparking = async(event, context) => {
+const createParking = async(event, context) => {
     const { collections: [parkingModel] } = event.useMongo;
     return await parkingModel.create(event.body)
 }
 
-export const handler = use(createparking, { httpCodes, langConfig, translations })
+export const handler = use(createParking, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]

@@ -3,7 +3,7 @@ import { use, mongo, Model, authorizer, validateQueryParams } from "@octopy/serv
 import { generateCSVFile } from "../../helpers/shared/generate-csv-file"
 import { parkingSchema } from "../../schemas/parking";
 
-const exportparking = async (event, context) => {
+const exportParking = async (event, context) => {
     const { collections: [parkingModel] } = event.useMongo;
 
     const parkings = await parkingModel.find().sort({ created_at: -1 });
@@ -27,7 +27,7 @@ const exportparking = async (event, context) => {
     };
 }
 
-export const handler = use(exportparking, { httpCodes, langConfig, translations })
+export const handler = use(exportParking, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]

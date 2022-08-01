@@ -2,7 +2,7 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, authorizer, mongooseTypes } from "@octopy/serverless-core";
 import { parkingReservationSchema } from "../../schemas/reservation"
 
-const reservationsparking = async (event, context) => {
+const reservationsParking = async (event, context) => {
     const { collections: [pReservationModel] } = event.useMongo;
     const { id } = event.pathParameters;
     const count = await pReservationModel.find({
@@ -12,7 +12,7 @@ const reservationsparking = async (event, context) => {
     return { reservation_related: count }
 }
 
-export const handler = use(reservationsparking, { httpCodes, langConfig, translations })
+export const handler = use(reservationsParking, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]

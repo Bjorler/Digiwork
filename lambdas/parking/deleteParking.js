@@ -3,7 +3,7 @@ import { use, mongo, authorizer, mongooseTypes} from "@octopy/serverless-core";
 import { parkingSchema } from "../../schemas/parking";
 import { parkingReservationSchema } from "../../schemas/reservation"
 
-const deleteparking = async(event, context) => {
+const deleteParking = async(event, context) => {
     const { collections: [parkingModel, pReservationModel] } = event.useMongo;
     const id = event.pathParameters?.id;
 
@@ -16,7 +16,7 @@ const deleteparking = async(event, context) => {
     return parking
 }
 
-export const handler = use(deleteparking, { httpCodes, langConfig, translations })
+export const handler = use(deleteParking, { httpCodes, langConfig, translations })
     .use(authorizer({
         uriDB: process.env.MONGO_CONNECTION, secretKey: process.env.SECRET_KEY,
         roles: ["admin"]
