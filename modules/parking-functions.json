@@ -1,5 +1,5 @@
 {
-  "create": {
+  "createParking": {
     "handler": "parking/createParking.handler",
     "events": [
       {
@@ -11,7 +11,7 @@
       }
     ]
   },
-  "deleteparking": {
+  "deleteParking": {
     "handler": "parking/deleteParking.handler",
     "events": [
       {
@@ -23,7 +23,7 @@
       }
     ]
   },
-  "getparking": {
+  "getParking": {
     "handler": "parking/getParking.handler",
     "events": [
       {
@@ -35,7 +35,7 @@
       }
     ]
   },
-  "listparking": {
+  "listParking": {
     "handler": "parking/listParking.handler",
     "events": [
       {
@@ -47,7 +47,7 @@
       }
     ]
   },
-  "updateparking": {
+  "updateParking": {
     "handler": "parking/updateParking.handler",
     "events": [
       {
@@ -59,7 +59,7 @@
       }
     ]
   },
-  "exportparking": {
+  "exportParking": {
     "handler": "parking/exportParking.handler",
     "events": [
       {
@@ -76,7 +76,7 @@
       "arn:aws:lambda:us-east-1:565183114770:layer:common-aws:6"
     ]
   },
-  "reservationparking": {
+  "reservationParking": {
     "handler": "parking/reservationParking.handler",
     "events": [
       {
@@ -88,7 +88,7 @@
       }
     ]
   },
-  "catalogueparking": {
+  "catalogueParking": {
     "handler": "parking/catalogueParking.handler",
     "events": [
       {
