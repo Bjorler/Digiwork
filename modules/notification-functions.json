@@ -70,5 +70,17 @@
         }
       }
     ]
+  },
+  "listAllNotifications": {
+    "handler": "notification/listAllNotifications.handler",
+    "events": [
+      {
+        "http": {
+          "path": "notification/listAllNotifications",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
   }
 }
