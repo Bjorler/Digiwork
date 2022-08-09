@@ -17,7 +17,7 @@ const exportParking = async (event, context) => {
             { id: "_id", title: "ID" },
             { id: "name", title: "Nombre" },
             { id: "location", title: "Ubicacion" },
-            {id: "status", title: "Estatus"}
+            { id: "status", title: "Estatus" }
         ],
         content: parkings
     },

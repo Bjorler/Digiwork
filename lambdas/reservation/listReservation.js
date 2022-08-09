@@ -10,14 +10,14 @@ import { workStationSchema } from "../../schemas/workStation";
 const listReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel, parkingReservationModel] } = event.useMongo;
    
-    const reservation_date = event.queryStringParameters?.date;
     const reservation_type = event.queryStringParameters?.reservation_type;
+    const reservation_date = event.queryStringParameters?.reservation_date;
 
     const filter = {};
     if(reservation_date) {
-        filter.date_formated = new Date(date).toISOString();
+        filter.date_formated = new Date(reservation_date).toISOString();
     }
-
+    console.log(reservation_date);
     let reservations;
     if(reservation_type == ReservationEnum.work_station) {
         reservations = await wsReservationModel.find(filter)
@@ -32,7 +32,7 @@ const listReservation = async (event, context) => {
             .populate('user_id')
             .populate({ path: 'parking', populate: { path: 'location' } })
     }
-
+    
     return reservations;
 }
 

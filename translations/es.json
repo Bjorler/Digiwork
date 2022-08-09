@@ -86,5 +86,8 @@
 
   "notCheckIn": "No es posible hacer check-in antes de la hora de inicio de la reservación",
 
-  "createNotification": "La notificacion debe incluir al menos una imagen o un mensaje"
+  "createNotification": "La notificacion debe incluir al menos una imagen o un mensaje",
+
+  "answerIsNotBoolean": "La respuesta no es un booleano",
+  "answerRequired": "La respuesta es requerida"
 }
