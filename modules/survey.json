@@ -1,0 +1,74 @@
+{
+  "createSurvey": {
+    "handler": "survey/createSurvey.handler",
+    "events": [
+      {
+        "http": {
+          "path": "survey/create",
+          "method": "post",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "getSurvey": {
+    "handler": "survey/getSurvey.handler",
+    "events": [
+      {
+        "http": {
+          "path": "survey/get/{id}",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "updateSurvey": {
+    "handler": "survey/updateSurvey.handler",
+    "events": [
+      {
+        "http": {
+          "path": "survey/update/{id}",
+          "method": "put",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "listSurvey": {
+    "handler": "survey/listSurvey.handler",
+    "events": [
+      {
+        "http": {
+          "path": "survey/list",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "deleteSurvey": {
+    "handler": "survey/deleteSurvey.handler",
+    "events": [
+      {
+        "http": {
+          "path": "survey/delete/{id}",
+          "method": "delete",
+          "cors": true
+        }
+      }
+    ]
+  },
+  "catalogueSurvey": {
+    "handler": "survey/catalogueSurvey.handler",
+    "events": [
+      {
+        "http": {
+          "path": "survey/catalogue",
+          "method": "get",
+          "cors": true
+        }
+      }
+    ]
+  }
+}

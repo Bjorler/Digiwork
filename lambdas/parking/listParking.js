@@ -21,7 +21,7 @@ const listParking = async(event, context) => {
         match.status = true
     }
    
-    const parking = await parkingModel.find(match).populate({path: 'location', select: 'name'})
+    const parking = await parkingModel.find(match).populate({path: 'location', select: 'name'}).sort({'location' : 'descending'})
 
     return parking
 }
