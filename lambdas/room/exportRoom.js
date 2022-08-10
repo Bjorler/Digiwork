@@ -6,7 +6,26 @@ import { roomSchema } from "../../schemas/room";
 
 const exportRoom = async (event, context) => {
     const { collections: [roomModel] } = event.useMongo;
-    const rooms = await roomModel.find().sort({ created_at: -1 });
+    const rooms = await roomModel.aggregate([
+        { $lookup: {
+            from: 'locations',
+            localField: 'location',
+            foreignField: '_id',
+            as: 'location'
+            }
+        },
+        { 
+            $unwind: '$location' 
+        },
+        {
+            $project: {
+                name: 1,
+                location: '$location.name',
+                spaces: '$spaces',
+                status: '$status'
+            }
+        }
+    ]);
 
     const date = new Date();
     const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
@@ -18,7 +37,6 @@ const exportRoom = async (event, context) => {
             { id: "name", title: "Nombre" },
             { id: "location", title: "Ubicacion" },
             { id: "spaces", title: "Cupos" },
-            { id: "amenities", title: "Amenidades" },
             { id: "status", title:"Estatus" }
         ],
         content: rooms

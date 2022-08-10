@@ -7,7 +7,7 @@ export const parkingSchema = new Schema({
     },
     location: {
         type: Schema.Types.ObjectId,
-        ref: "locations",
+        ref: "location",
         required: true
     },
     status: {

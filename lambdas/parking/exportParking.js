@@ -1,17 +1,36 @@
 import { langConfig, translations, httpCodes } from "../../commonIncludes";
-import { use, mongo, Model, authorizer, validateQueryParams } from "@octopy/serverless-core";
+import { use, mongo, Model, authorizer, validateQueryParams, mongooseTypes } from "@octopy/serverless-core";
 import { generateCSVFile } from "../../helpers/shared/generate-csv-file"
 import { parkingSchema } from "../../schemas/parking";
+import { locationSchema } from "../../schemas/location";
 
 const exportParking = async (event, context) => {
     const { collections: [parkingModel] } = event.useMongo;
 
-    const parkings = await parkingModel.find().sort({ created_at: -1 });
+    const parkings = await parkingModel.aggregate([
+        { $lookup: {
+            from: 'locations',
+            localField: 'location',
+            foreignField: '_id',
+            as: 'location'
+            }
+        },
+        { 
+            $unwind: '$location' 
+        },
+        {
+            $project: {
+                name: 1,
+                location: '$location.name',
+                status: '$status'
+            }
+        }
+    ]);
 
     const date = new Date();
     const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     const month = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-
+    console.log(parkings);
     const generated = await generateCSVFile({
         headers: [
             { id: "_id", title: "ID" },

@@ -10,14 +10,17 @@ import { workStationSchema } from "../../schemas/workStation";
 const listReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel, parkingReservationModel] } = event.useMongo;
    
-    const reservation_type = event.queryStringParameters?.reservation_type;
-    const reservation_date = event.queryStringParameters?.reservation_date;
+    const reservation_type = event.queryStringParameters?.reservation_type ?? "";
+    const reservation_date = event.queryStringParameters?.reservation_date ?? "";
 
     const filter = {};
     if(reservation_date) {
-        filter.date_formated = new Date(reservation_date).toISOString();
+        // const end_date = new Date ({$set: {date: { $dateAdd: { start_date: "$date", unit: "day" , amount: 1}}}})
+        // console.log(end_date);
+        filter.start_date ={ $gte:  new Date(reservation_date).toISOString()}
     }
-    console.log(reservation_date);
+    console.log(filter, 'si pasa');
+    
     let reservations;
     if(reservation_type == ReservationEnum.work_station) {
         reservations = await wsReservationModel.find(filter)
@@ -29,7 +32,7 @@ const listReservation = async (event, context) => {
             .populate({ path: 'room', populate: { path: 'location' } })
     } else {
         reservations = await parkingReservationModel.find(filter)
-            .populate('user_id')
+            .populate('user_id',).select('-notifications')
             .populate({ path: 'parking', populate: { path: 'location' } })
     }
     

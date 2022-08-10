@@ -6,7 +6,25 @@ import { workStationSchema } from "../../schemas/workStation";
 const exportWorkstation = async (event, context) => {
     const { collections: [workstationModel] } = event.useMongo;
 
-    const workstations = await workstationModel.find().sort({ created_at: -1 });
+    const workstations = await workstationModel.aggregate([
+        { $lookup: {
+            from: 'locations',
+            localField: 'location',
+            foreignField: '_id',
+            as: 'location'
+            }
+        },
+        { 
+            $unwind: '$location' 
+        },
+        {
+            $project: {
+                name: 1,
+                location: '$location.name',
+                status: '$status'
+            }
+        }
+    ]);
 
     const date = new Date();
     const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
