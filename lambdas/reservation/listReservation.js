@@ -16,10 +16,8 @@ const listReservation = async (event, context) => {
     const filter = {};
     if(reservation_date) {
         // const end_date = new Date ({$set: {date: { $dateAdd: { start_date: "$date", unit: "day" , amount: 1}}}})
-        // console.log(end_date);
         filter.start_date ={ $gte:  new Date(reservation_date).toISOString()}
     }
-    console.log(filter, 'si pasa');
     
     let reservations;
     if(reservation_type == ReservationEnum.work_station) {

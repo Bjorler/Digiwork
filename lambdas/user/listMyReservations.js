@@ -6,7 +6,6 @@ import { workStationSchema } from "../../schemas/workStation";
 import { roomSchema } from "../../schemas/room";
 import { parkingSchema } from "../../schemas/parking";
 import { locationSchema } from "../../schemas/location";
-import { ReservationEnum } from "../../helpers/shared/enums";
 
 const listMyReservations = async (event, context) => {
     const { collections: [
