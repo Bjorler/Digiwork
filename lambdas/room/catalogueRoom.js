@@ -5,7 +5,9 @@ import { roomSchema } from '../../schemas/room';
 
 const catalogueRoom = async(event, context) => {
     const { collections: [roomModel] } = event.useMongo;
-    const workstation = await roomModel.find().select("_id name")
+    const workstation = await roomModel.find({
+        status: true
+    }).select("_id name")
 
     return workstation
 }

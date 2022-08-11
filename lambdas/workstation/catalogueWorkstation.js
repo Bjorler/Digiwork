@@ -4,7 +4,9 @@ import { workStationSchema } from "../../schemas/workStation";
 
 const catalogueWorkstation = async(event, context) => {
     const { collections: [workStationModel] } = event.useMongo;
-    const workstation = workStationModel.find().select("_id name")
+    const workstation = workStationModel.find({
+        status: true
+    }).select("_id name")
 
     return workstation
 }

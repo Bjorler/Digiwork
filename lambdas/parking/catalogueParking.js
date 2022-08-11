@@ -4,7 +4,11 @@ import { parkingSchema } from "../../schemas/parking";
 
 const catalogueParking = async(event, context) => {
     const { collections: [parkingModel] } = event.useMongo;
-    const parking = parkingModel.find().select("_id name")
+    const parking = parkingModel.find({
+        status: true
+    }).select("_id name")
+
+    
 
     return parking
 }
