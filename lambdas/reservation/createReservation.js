@@ -60,7 +60,7 @@ const createReservation = async (event, context) => {
     }
 
     await new EmailNotification("reservationAlert", "Notificacion de Reservacion", { 
-        email: 'gth86@hotmail.com', // para hacer pruebas usar correo personal: 'gth086@gmail.com'
+        email: user.email, // para hacer pruebas usar correo personal: 'gth086@gmail.com'
         reservation_date: new Date(reservation.start_date).toLocaleDateString(),
         reservation_hour: new Date(reservation.start_date).toLocaleTimeString()
     }).sendEmail();

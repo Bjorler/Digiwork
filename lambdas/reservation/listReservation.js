@@ -6,6 +6,7 @@ import { ReservationEnum } from "../../helpers/shared/enums";
 import { parkingSchema } from "../../schemas/parking";
 import { roomSchema } from "../../schemas/room";
 import { workStationSchema } from "../../schemas/workStation";
+import { model } from "mongoose";
 
 const listReservation = async (event, context) => {
     const { collections: [wsReservationModel, roomReservationModel, parkingReservationModel] } = event.useMongo;
@@ -13,28 +14,46 @@ const listReservation = async (event, context) => {
     const reservation_type = event.queryStringParameters?.reservation_type ?? "";
     const reservation_date = event.queryStringParameters?.reservation_date ?? "";
 
+    
+
     const filter = {};
     if(reservation_date) {
         // const end_date = new Date ({$set: {date: { $dateAdd: { start_date: "$date", unit: "day" , amount: 1}}}})
         filter.start_date ={ $gte:  new Date(reservation_date).toISOString()}
     }
     
-    let reservations;
-    if(reservation_type == ReservationEnum.work_station) {
-        reservations = await wsReservationModel.find(filter)
-            .populate('user_id')
-            .populate({ path: 'work_station', populate: { path: 'location' } })
-    } else if(reservation_type == ReservationEnum.room) {
-        reservations = await roomReservationModel.find(filter)
-            .populate('user_id')
-            .populate({ path: 'room', populate: { path: 'location' } })
+
+    if (reservation_type) {
+        let reservations;
+        if(reservation_type == ReservationEnum.work_station) {
+            reservations = await wsReservationModel.find(filter)
+                .populate('user_id').select('-notifications')
+                .populate({ path: 'work_station', populate: { path: 'location' } })
+        } else if(reservation_type == ReservationEnum.room) {
+            reservations = await roomReservationModel.find(filter)
+                .populate('user_id').select('-notifications')
+                .populate({ path: 'room', populate: { path: 'location' } })
+        } else {
+            reservations = await parkingReservationModel.find(filter)
+                .populate('user_id').select('-notifications')
+                .populate({ path: 'parking', populate: { path: 'location' } })
+        }
+        
+        return reservations;
+    
     } else {
-        reservations = await parkingReservationModel.find(filter)
-            .populate('user_id',).select('-notifications')
-            .populate({ path: 'parking', populate: { path: 'location' } })
+        const ws = await wsReservationModel.find(filter)
+                .populate('user_id').select('-notifications')
+                .populate({ path: 'work_station', populate: { path: 'location' } })
+        const room = await roomReservationModel.find(filter)
+                .populate('user_id').select('-notifications')
+                .populate({ path: 'room', populate: { path: 'location' } })
+        const parking = await parkingReservationModel.find(filter)
+                .populate('user_id').select('-notifications')
+                .populate({ path: 'parking', populate: { path: 'location' } })
+        return [...ws, ...room,...parking]
     }
     
-    return reservations;
 }
 
 export const handler = use(listReservation, { httpCodes, langConfig, translations })
