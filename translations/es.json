@@ -69,7 +69,7 @@
   "notificationFailed": "Falló al crear la reservación",
 
   "reservationTypeIsString": "El tipo de reservación debe ser un string",
-  "reservationTypeInvalid": "El tipo de reservación debe ser: 'workstation' o 'room'",
+  "reservationTypeInvalid": "El tipo de reservación debe ser: 'workstation', 'room' o 'parking ",
   "reservationTypeRequired": "El tipo de reservación es requerido",
 
   "idNameIsString": "El id_name es un string",

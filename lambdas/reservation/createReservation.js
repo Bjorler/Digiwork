@@ -2,9 +2,12 @@ import { langConfig, translations, httpCodes } from "../../commonIncludes";
 import { use, mongo, Model, validateBody, token, authorizer } from "@octopy/serverless-core";
 import { workStationReservationSchema, roomReservationSchema, parkingReservationSchema } from "../../schemas/reservation";
 import { userSchema } from "../../schemas/user";
-import { createReservationDTO } from "../../models/reservation/createReservationDTO"
+import { createReservationDTO } from "../../models/reservation/createReservationDTO";
 import { ReservationEnum, ReservationStatus } from "../../helpers/shared/enums";
-import { EmailNotification } from "../../helpers/auth/EmailNotification"
+import { EmailNotification } from "../../helpers/auth/EmailNotification";
+import { workStationSchema } from "../../schemas/workStation";
+import { roomSchema } from "../../schemas/room";
+import { parkingSchema } from "../../schemas/parking";
 
 
 const createReservation = async (event, context) => {
@@ -13,6 +16,7 @@ const createReservation = async (event, context) => {
     const { reservation_type, start_date, end_date } = event.body;
     const parsed_start_date = new Date(start_date);
     const parsed_end_date = new Date(end_date);
+
     
     const data = { 
         ...event.body, 
@@ -25,9 +29,9 @@ const createReservation = async (event, context) => {
     delete data.id_name;
     data.start_date = new Date(parsed_start_date).toISOString();
     data.end_date = new Date(parsed_end_date).toISOString();
-    
+
     if (reservation_type === ReservationEnum.work_station) {
-        data.work_station = event.body.id_name;
+        data.workstation = event.body.id_name;
     } else if (reservation_type === ReservationEnum.room) {
         data.room = event.body.id_name;
     } else {
@@ -56,7 +60,7 @@ const createReservation = async (event, context) => {
     }
 
     await new EmailNotification("reservationAlert", "Notificacion de Reservacion", { 
-        email: user.email, // para hacer pruebas usar correo personal: 'gth086@gmail.com'
+        email: 'gth86@hotmail.com', // para hacer pruebas usar correo personal: 'gth086@gmail.com'
         reservation_date: new Date(reservation.start_date).toLocaleDateString(),
         reservation_hour: new Date(reservation.start_date).toLocaleTimeString()
     }).sendEmail();
@@ -78,7 +82,10 @@ export const handler = use(createReservation, { httpCodes, langConfig, translati
             work_station_reservations: workStationReservationSchema,
             room_reservations: roomReservationSchema,
             parking_reservations: parkingReservationSchema,
-            userModel: userSchema
+            userModel: userSchema,
+            work_station: workStationSchema,
+            room: roomSchema,
+            parking: parkingSchema
         }
     }))
     .use(token(process.env.SECRET_KEY))
