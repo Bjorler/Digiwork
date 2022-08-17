@@ -31,7 +31,7 @@ const createReservation = async (event, context) => {
     data.end_date = new Date(parsed_end_date).toISOString();
 
     if (reservation_type === ReservationEnum.work_station) {
-        data.workstation = event.body.id_name;
+        data.work_station = event.body.id_name;
     } else if (reservation_type === ReservationEnum.room) {
         data.room = event.body.id_name;
     } else {
