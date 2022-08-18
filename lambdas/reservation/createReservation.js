@@ -17,7 +17,6 @@ const createReservation = async (event, context) => {
     const parsed_start_date = new Date(start_date);
     const parsed_end_date = new Date(end_date);
 
-    
     const data = { 
         ...event.body, 
         user_id: payload?._id, 
@@ -60,9 +59,10 @@ const createReservation = async (event, context) => {
     }
 
     await new EmailNotification("reservationAlert", "Notificacion de Reservacion", { 
-        email: user.email, // para hacer pruebas usar correo personal: 'gth086@gmail.com'
-        reservation_date: new Date(reservation.start_date).toLocaleDateString(),
-        reservation_hour: new Date(reservation.start_date).toLocaleTimeString()
+        email: user.email, 
+        // email: 'gth086@gmail.com',
+        reservation_date: parsed_start_date.toDateString(),
+        reservation_hour: parsed_start_date.toTimeString()
     }).sendEmail();
 
     return reservation;

@@ -10,7 +10,6 @@ const createNotification = async(event, context) => {
     const message = event.body.message;
     const title = event.body.title;
     const many = event.body;
-    console.log('ya paso');
     const notification = await notificationModel.create(event.body);
 
     for (let index = 0; index < many.to.length; index++) {

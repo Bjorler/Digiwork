@@ -9,6 +9,9 @@ const listNotification = async(event, context) => {
     const { payload } = event.useToken;
     
     const myUser = await userModel.findById(payload._id);
+    if (!Array.isArray(myUser.notifications)) {
+        return []
+    }
     const notification_ids =  myUser.notifications.map( notification => {
         return notification.notification_id;
     })

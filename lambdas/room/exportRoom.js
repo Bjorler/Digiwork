@@ -22,6 +22,7 @@ const exportRoom = async (event, context) => {
                 name: 1,
                 location: '$location.name',
                 spaces: '$spaces',
+                amenities: '$amenities',
                 status: '$status'
             }
         }
@@ -37,6 +38,7 @@ const exportRoom = async (event, context) => {
             { id: "name", title: "Nombre" },
             { id: "location", title: "Ubicacion" },
             { id: "spaces", title: "Cupos" },
+            { id: "amenities", title: "Amenidades" },
             { id: "status", title:"Estatus" }
         ],
         content: rooms
