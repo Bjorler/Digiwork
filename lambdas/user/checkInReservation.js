@@ -20,7 +20,6 @@ const checkInReservation = async (event, context) => {
             modelo = roomReservationModel
             break;
         case ReservationEnum.parking:
-            console.log('cualquiera');
             modelo = parkingReservationModel
             break;
     }

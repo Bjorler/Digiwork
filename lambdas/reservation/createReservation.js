@@ -58,12 +58,27 @@ const createReservation = async (event, context) => {
         throw { scode: 'notificationFailed'};
     }
 
+    let translation
+    switch (reservation_type) {
+        case ReservationEnum.work_station:
+            translation = 'Espacio de trabajo'
+            break;
+        case ReservationEnum.room:
+            translation = 'Sala'
+            break;
+        case ReservationEnum.parking:
+            translation = 'Estacionamiento'
+            break;
+    }
+
     await new EmailNotification("reservationAlert", "Notificacion de Reservacion", { 
-        email: user.email, 
-        // email: 'gth086@gmail.com',
+        // email: user.email, 
+        email: 'gth86@hotmail.com',
+        reservation_type: translation,
         reservation_date: parsed_start_date.toDateString(),
-        reservation_hour: parsed_start_date.toTimeString()
+        reservation_hour: parsed_start_date.toLocaleTimeString()
     }).sendEmail();
+
 
     return reservation;
 
