@@ -72,11 +72,11 @@ const createReservation = async (event, context) => {
     }
 
     await new EmailNotification("reservationAlert", "Notificacion de Reservacion", { 
-        // email: user.email, 
-        email: 'gth86@hotmail.com',
+        email: user.email, 
+        // email: 'gth86@hotmail.com',
         reservation_type: translation,
         reservation_date: parsed_start_date.toDateString(),
-        reservation_hour: parsed_start_date.toLocaleTimeString()
+        reservation_hour: parsed_start_date.toTimeString()
     }).sendEmail();
 
 
